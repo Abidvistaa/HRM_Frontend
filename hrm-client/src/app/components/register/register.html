@@ -1,0 +1,45 @@
+<div class="container mt-4">
+
+    <h2>Register User</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+        <div class="mb-3">
+            <label>Role</label>
+
+            <select class="form-control" formControlName="roleId">
+
+                <option value="">Select Role</option>
+
+                <option *ngFor="let role of roles" [value]="role.Id">
+                    {{ role.RoleName }}
+                </option>
+
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>User Name</label>
+
+            <input
+                type="text"
+                class="form-control"
+                formControlName="userName">
+        </div>
+
+        <div class="mb-3">
+            <label>Password</label>
+
+            <input
+                type="password"
+                class="form-control"
+                formControlName="password">
+        </div>
+
+        <button class="btn btn-primary" type="submit">
+            Register
+        </button>
+
+    </form>
+
+</div>

@@ -6,9 +6,9 @@ import { AuthService } from './auth';
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService {
+export class UserService {
 
-  private apiUrl = 'https://localhost:5001/api/Employee';
+  private apiUrl = 'https://localhost:5001/api/UserManagement';
 
   constructor(
     private http: HttpClient,
@@ -24,39 +24,48 @@ export class EmployeeService {
     });
   }
 
+
+  // GET All Roles
+  getRoles(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/GetAllRoles`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
   // GET All
-  getEmployees(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/GetAllEmployees`, {
+  getUsers(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/GetAllUsers`, {
       headers: this.getAuthHeaders()
     });
   }
 
   // GET
-  getEmployee(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/GetEmployeeById/${id}`, {
+  getUser(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/GetUserById/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
 
   // POST
-  addEmployee(obj: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/AddEmployee`, obj, {
+  registerUser(obj: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/AddUser`, obj, {
       headers: this.getAuthHeaders()
     });
   }
 
   // UPDATE
-  updateEmployee(id: number, obj: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/UpdateEmployee}`, obj, {
+  updateUser(id: number, obj: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/UpdateUser}`, obj, {
       headers: this.getAuthHeaders()
     });
   }
 
   // DELETE
-  deleteEmployee(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/DeleteEmployee/${id}`, {
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/DeleteUser/${id}`, {
       headers: this.getAuthHeaders()
     });
-  }
 
+  }
 }
+

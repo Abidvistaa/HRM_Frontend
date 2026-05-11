@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './login.html'
+  templateUrl: './login.html',
+    styleUrl: './login.css',
 })
 export class LoginComponent {
 
@@ -33,5 +34,9 @@ export class LoginComponent {
         this.error = 'Invalid username or password';
       }
     });
+  }
+
+   goToRegister() {
+    this.router.navigate(['/register']);
   }
 }
