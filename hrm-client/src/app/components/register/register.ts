@@ -1,61 +1,79 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule  } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { UserService } from '../../services/user';
 
 @Component({
   selector: 'app-register',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register.html',
-  styleUrls: ['./register.css'],
-  imports: [CommonModule, ReactiveFormsModule]
+  styleUrl: './register.css'
 })
 export class RegisterComponent implements OnInit {
 
-  registerForm!: FormGroup;
-
+  registerForm: FormGroup;
   roles: any[] = [];
+
+  successMessage = '';
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService
-  ) { }
-
-  ngOnInit(): void {
-
+    private userService: UserService,
+    private router: Router
+  ) {
     this.registerForm = this.fb.group({
       roleId: ['', Validators.required],
       userName: ['', Validators.required],
       password: ['', Validators.required]
     });
+  }
 
+  ngOnInit(): void {
     this.loadRoles();
   }
 
+  // GET ROLES
   loadRoles(): void {
     this.userService.getRoles().subscribe({
-      next: (res) => {
-        this.roles = res;
-      },
-      error: (err) => {
-        console.log(err);
-      }
+      next: (data) => this.roles = data,
+      error: () => this.errorMessage = 'Failed to load roles'
     });
   }
 
+  // REGISTER USER
   onSubmit(): void {
 
     if (this.registerForm.invalid) {
+      this.errorMessage = 'Please fill all required fields.';
       return;
     }
 
     this.userService.registerUser(this.registerForm.value).subscribe({
-      next: (res) => {
-        alert('User Registered Successfully');
+      next: () => {
+        this.successMessage = 'User created successfully!';
         this.registerForm.reset();
+
+        setTimeout(() => this.successMessage = '', 3000);
       },
-      error: (err) => {
-        console.log(err);
+      error: () => {
+        this.errorMessage = 'Failed to create user.';
+        setTimeout(() => this.errorMessage = '', 3000);
       }
     });
+  }
+
+  resetForm(): void {
+    this.registerForm.reset();
+  }
+
+  goToLoginPage() {
+    this.router.navigateByUrl('');
+  }
+
+  goToUserList() {
+    this.router.navigateByUrl('');
   }
 }

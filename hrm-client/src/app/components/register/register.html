@@ -1,44 +1,61 @@
-<div class="container mt-4">
+<div class="container mt-4 admin-container">
 
-    <h2>Register User</h2>
+    <!-- HEADER -->
+    <div class="header">
+        <h2>Admin - Create New User</h2>
+        <p class="subtitle">Only administrators can register and manage system users</p>
+    </div>
 
+    <!-- FORM -->
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-        <div class="mb-3">
+        <!-- ROLE -->
+        <div class="mb-3 form-group">
             <label>Role</label>
-
             <select class="form-control" formControlName="roleId">
-
                 <option value="">Select Role</option>
-
-                <option *ngFor="let role of roles" [value]="role.Id">
-                    {{ role.RoleName }}
+                <option *ngFor="let role of roles" [value]="role.id">
+                    {{ role.roleName }}
                 </option>
-
             </select>
         </div>
 
-        <div class="mb-3">
+        <!-- USERNAME -->
+        <div class="mb-3 form-group">
             <label>User Name</label>
-
-            <input
-                type="text"
-                class="form-control"
-                formControlName="userName">
+            <input type="text" class="form-control" formControlName="userName">
         </div>
 
-        <div class="mb-3">
+        <!-- PASSWORD -->
+        <div class="mb-3 form-group">
             <label>Password</label>
-
-            <input
-                type="password"
-                class="form-control"
-                formControlName="password">
+            <input type="password" class="form-control" formControlName="password">
         </div>
 
-        <button class="btn btn-primary" type="submit">
-            Register
+        <!-- REGISTER BUTTON -->
+        <button class="btn btn-primary mt-2" type="submit">
+            Create User
         </button>
+
+        <!-- SUCCESS MESSAGE -->
+        <div class="alert alert-success mt-3" *ngIf="successMessage">
+            {{ successMessage }}
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="admin-actions mt-4">
+
+            <!-- LEFT: LOGIN -->
+            <a (click)="goToLoginPage()" class="action-link left-link">
+                ← Login Page
+            </a>
+
+            <!-- RIGHT: USER LIST -->
+            <a (click)="goToUserList()" class="action-link right-link">
+                Go To User List →
+            </a>
+
+        </div>
 
     </form>
 

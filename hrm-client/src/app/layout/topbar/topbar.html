@@ -1,0 +1,25 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div class="topbar">
+
+  <!-- Left -->
+  <div class="left-section">
+    <span class="logo">HRMS</span>
+  </div>
+
+  <!-- Right -->
+  <div class="right-section" *ngIf="isLoggedIn">
+
+    <div class="user-info">
+      <span class="material-icons">person</span>
+      <span>{{ username }}</span>
+    </div>
+
+      <!-- logout icon only -->
+    <span class="material-icons logout-icon" (click)="logout()" title="Logout">
+      logout
+    </span>
+
+  </div>
+
+</div>

@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
-  private apiUrl = 'https://localhost:5001/api/usermanagement/login';
+  private apiUrl = 'https://localhost:5001/api/UserManagement';
 
   constructor(
     private http: HttpClient,
@@ -16,23 +16,29 @@ export class AuthService {
   ) {}
 
   login(data: { username: string; password: string }): Observable<any> {
-    return this.http.post(this.apiUrl, data).pipe(
-      tap((res: any) => {
+    return this.http.post<any>(`${this.apiUrl}/Login`, data).pipe(
+      tap((res) => {
         localStorage.setItem('token', res.token);
+        localStorage.setItem('username', res.userName);
       })
     );
   }
 
-  getToken() {
+  getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  logout() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']); 
+  getUsername(): string {
+    return localStorage.getItem('username') || '';
   }
 
   isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+  logout(): void {
+    localStorage.clear();
+
+    this.router.navigateByUrl('');
   }
 }
