@@ -18,7 +18,6 @@ export class UserService {
   // helper to create headers
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.getToken();
-
     return new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
@@ -34,7 +33,7 @@ export class UserService {
 
   // GET All
   getUsers(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/GetAllUsers`, {
+    return this.http.get(`${this.apiUrl}/GetAllUsersWithRoles`, {
       headers: this.getAuthHeaders()
     });
   }

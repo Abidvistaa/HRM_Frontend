@@ -1,0 +1,71 @@
+<div class="page-header">
+
+  <h2>User List</h2>
+
+  <div class="header-controls">
+
+    <!-- SEARCH -->
+    <input
+      type="text"
+      placeholder="Search user..."
+      [(ngModel)]="searchText"
+      (input)="onSearch()"
+    />
+
+    <!-- PAGE SIZE -->
+    <div class="page-size">
+      <label>Show:</label>
+
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">
+          {{ size }}
+        </option>
+      </select>
+    </div>
+
+  </div>
+</div>
+
+<!-- TABLE -->
+<div class="table-container">
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>User Name</th>
+      <th>Department</th>
+      <th>Created Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let obj of pagedUsers">
+      <td>{{ obj.id }}</td>
+      <td>{{ obj.userName }}</td>
+      <td>{{ obj.roleName }}</td>
+      <td>{{ obj.actionDate | date:'dd-MM-yyyy hh:mm a' }}</td>
+      <td>
+        <button (click)="deleteUser(obj.id)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+<!-- PAGINATION -->
+<div class="pagination">
+
+  <button (click)="prevPage()" [disabled]="currentPage === 1">
+    Prev
+  </button>
+
+  <span>Page {{ currentPage }}</span>
+
+  <button (click)="nextPage()" [disabled]="currentPage * pageSize >= filteredUsers.length">
+    Next
+  </button>
+
+</div>

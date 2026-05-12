@@ -23,18 +23,25 @@ export class LoginComponent {
   ) {}
 
   login() {
-    this.auth.login({
-      username: this.username,
-      password: this.password
-    }).subscribe({
-      next: () => {
-        this.router.navigate(['/employee-list']);
-      },
-      error: () => {
+  this.auth.login({
+    username: this.username,
+    password: this.password
+  }).subscribe({
+    next: (res: any) => {
+
+      if (res && res.success === true) {
+        this.router.navigate(['/user-list']);
+      }
+      else {
         this.error = 'Invalid username or password';
       }
-    });
-  }
+    },
+
+    error: () => {
+      this.error = 'Server error. Please try again.';
+    }
+  });
+}
 
    goToRegister() {
      this.router.navigateByUrl('/register');

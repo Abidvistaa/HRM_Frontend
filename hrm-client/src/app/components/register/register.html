@@ -12,8 +12,15 @@
         <!-- ROLE -->
         <div class="mb-3 form-group">
             <label>Role</label>
+
+            <small class="text-danger"
+                *ngIf="registerForm.get('roleId')?.invalid && registerForm.get('roleId')?.touched">
+                Required
+            </small>
+
             <select class="form-control" formControlName="roleId">
                 <option value="">Select Role</option>
+
                 <option *ngFor="let role of roles" [value]="role.id">
                     {{ role.roleName }}
                 </option>
@@ -23,13 +30,32 @@
         <!-- USERNAME -->
         <div class="mb-3 form-group">
             <label>User Name</label>
-            <input type="text" class="form-control" formControlName="userName">
+
+            <small class="text-danger"
+                *ngIf="registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched">
+                Required
+            </small>
+
+            <input
+                type="text"
+                class="form-control"
+                formControlName="userName">
+
         </div>
 
         <!-- PASSWORD -->
         <div class="mb-3 form-group">
             <label>Password</label>
-            <input type="password" class="form-control" formControlName="password">
+            
+            <small class="text-danger"
+                *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                Required
+            </small>
+
+            <input
+                type="password"
+                class="form-control"
+                formControlName="password">
         </div>
 
         <!-- REGISTER BUTTON -->
@@ -45,14 +71,9 @@
         <!-- ACTIONS -->
         <div class="admin-actions mt-4">
 
-            <!-- LEFT: LOGIN -->
+            <!-- LOGIN -->
             <a (click)="goToLoginPage()" class="action-link left-link">
                 ← Login Page
-            </a>
-
-            <!-- RIGHT: USER LIST -->
-            <a (click)="goToUserList()" class="action-link right-link">
-                Go To User List →
             </a>
 
         </div>

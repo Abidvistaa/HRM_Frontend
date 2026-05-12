@@ -46,24 +46,38 @@ export class RegisterComponent implements OnInit {
   // REGISTER USER
   onSubmit(): void {
 
-    if (this.registerForm.invalid) {
-      this.errorMessage = 'Please fill all required fields.';
-      return;
-    }
+  if (this.registerForm.invalid) {
 
-    this.userService.registerUser(this.registerForm.value).subscribe({
-      next: () => {
-        this.successMessage = 'User created successfully!';
-        this.registerForm.reset();
+    this.registerForm.markAllAsTouched();
 
-        setTimeout(() => this.successMessage = '', 3000);
-      },
-      error: () => {
-        this.errorMessage = 'Failed to create user.';
-        setTimeout(() => this.errorMessage = '', 3000);
-      }
-    });
+    this.errorMessage = 'Please fill all required fields.';
+
+    return;
   }
+
+  this.userService.registerUser(this.registerForm.value).subscribe({
+    next: () => {
+
+      this.successMessage = 'User created successfully!';
+      this.errorMessage = '';
+
+      this.registerForm.reset();
+
+      setTimeout(() => {
+        this.successMessage = '';
+      }, 3000);
+    },
+
+    error: () => {
+
+      this.errorMessage = 'Failed to create user.';
+
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 3000);
+    }
+  });
+}
 
   resetForm(): void {
     this.registerForm.reset();
@@ -74,6 +88,7 @@ export class RegisterComponent implements OnInit {
   }
 
   goToUserList() {
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('/user-list');
   }
+
 }

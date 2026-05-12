@@ -1,0 +1,135 @@
+/* PAGE HEADER */
+.page-header {
+  width: 80%;
+  margin: 20px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  font-family: Arial, sans-serif;
+}
+
+/* TITLE */
+.page-header h2 {
+  margin: 0;
+  color: #333;
+}
+
+/* RIGHT SIDE CONTROLS */
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* SEARCH BOX */
+.header-controls input {
+  padding: 8px 12px;
+  width: 150px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+.header-controls input:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 5px rgba(13,110,253,0.3);
+}
+
+/* PAGE SIZE */
+.page-size {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.page-size select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+/* TABLE */
+.table-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* HEADER */
+thead {
+  background: #74729c;
+  color: white;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+/* ROWS */
+tbody tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+tbody tr:hover {
+  background: #eef2ff;
+}
+
+/* BUTTON */
+button {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* PAGINATION */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.pagination button {
+  background: #0d6efd;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+
+  .page-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .header-controls {
+    flex-direction: column;
+  }
+
+  .header-controls input {
+    width: 100%;
+  }
+}
