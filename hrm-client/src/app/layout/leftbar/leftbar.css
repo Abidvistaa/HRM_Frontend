@@ -1,0 +1,111 @@
+.sidebar {
+  width: 150px;
+  height: calc(100vh - 70px);
+  background: #111827;
+  color: white;
+  padding: 20px 0;
+  position: fixed;
+  left: 0;
+  top: 70px;
+  overflow: visible;
+  z-index: 1000;
+}
+
+/* TITLE */
+.menu-title {
+  padding: 0 25px 20px;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #9CA3AF;
+  font-weight: bold;
+}
+
+/* GROUP */
+.menu-group {
+  position: relative;
+}
+
+/* HEADER */
+.group-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 25px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #E5E7EB;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+  transform-origin: left;
+}
+
+/* MAIN MENU HOVER TRANSFORM */
+.menu-group:hover > .group-title {
+  background: #1f2937;
+  transform: translateX(2px) scale(1.03);
+}
+
+/* SUBMENU */
+.submenu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 180px;
+
+  background: #0f172a;
+
+  display: flex;
+  flex-direction: column;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform: translateX(-20px) scale(0.95);
+  transform-origin: left center;
+
+  transition: all 0.25s ease;
+
+  pointer-events: none;
+  z-index: 9999;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* SHOW ON HOVER */
+.menu-group:hover .submenu,
+.submenu:hover {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0) scale(1);
+  pointer-events: auto;
+}
+
+/* LINKS */
+.submenu a {
+  padding: 10px 20px;
+  color: #D1D5DB;
+  text-decoration: none;
+  white-space: nowrap;
+
+  transition: all 0.2s ease;
+}
+
+/* LINK HOVER */
+.submenu a:hover {
+  background: #1E3A8A;
+  color: white;
+  padding-left: 24px;
+
+}
+
+/* ACTIVE ROUTE */
+.active-link {
+  background: #2563EB;
+  color: white !important;
+}
+
+/* ICON */
+.material-icons {
+  font-size: 18px;
+}

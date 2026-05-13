@@ -1,0 +1,109 @@
+<div class="employee-container">
+
+  <div class="header">
+    <h2>{{ isEditMode ? 'Edit Employee' : 'Create Employee' }}</h2>
+  </div>
+
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="form-grid">
+
+    <!-- NAME -->
+    <div class="form-group">
+      <label>Name</label>
+      <small class="text-danger"
+        *ngIf="employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched">
+        Required
+      </small>
+      <input type="text" class="form-control" formControlName="name">
+    </div>
+
+    <!-- EMAIL -->
+    <div class="form-group">
+      <label>Email</label>
+      <small class="text-danger"
+        *ngIf="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched">
+        <span *ngIf="employeeForm.get('email')?.errors?.['required']">Required</span>
+        <span *ngIf="employeeForm.get('email')?.errors?.['email']">Invalid email</span>
+      </small>
+      <input type="email" class="form-control" formControlName="email">
+    </div>
+
+    <!-- PHONE -->
+    <div class="form-group">
+      <label>Phone</label>
+      <small class="text-danger"
+        *ngIf="employeeForm.get('phone')?.invalid && employeeForm.get('phone')?.touched">
+        Required
+      </small>
+      <input type="text" class="form-control" formControlName="phone">
+    </div>
+
+    <!-- DEPARTMENT -->
+    <div class="form-group">
+      <label>Department</label>
+      <small class="text-danger"
+        *ngIf="employeeForm.get('department')?.invalid && employeeForm.get('department')?.touched">
+        Required
+      </small>
+
+      <select class="form-control" formControlName="department">
+        <option [ngValue]="null" disabled>Select Department</option>
+        <option [ngValue]="'Admin'">Admin</option>
+        <option [ngValue]="'HR'">HR</option>
+        <option [ngValue]="'Faculty'">Faculty</option>
+        <option [ngValue]="'SDD'">SDD</option>
+        <option [ngValue]="'Finance'">Finance</option>
+      </select>
+    </div>
+
+    <!-- ACCOUNT NUMBER -->
+    <div class="form-group">
+      <label>Account Number</label>
+      <small class="text-danger"
+        *ngIf="employeeForm.get('accountNumber')?.invalid && employeeForm.get('accountNumber')?.touched">
+        Required
+      </small>
+      <input type="text" class="form-control" formControlName="accountNumber">
+    </div>
+
+    <!-- EMPLOYMENT STATUS (ONLY EDIT MODE) -->
+    <div class="form-group" *ngIf="isEditMode">
+      <label>Employment Status</label>
+      <select class="form-control" formControlName="employmentStatus">
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+        <option value="On Leave">On Leave</option>
+        <option value="Resigned">Resigned</option>
+      </select>
+    </div>
+
+    <!-- HIRE DATE (ONLY CREATE MODE) -->
+    <div class="form-group" *ngIf="!isEditMode">
+      <label>Hire Date</label>
+      <small class="text-danger"
+        *ngIf="employeeForm.get('hireDate')?.invalid && employeeForm.get('hireDate')?.touched">
+        Required
+      </small>
+      <input type="date" class="form-control" formControlName="hireDate">
+    </div>
+
+    <!-- BUTTON -->
+    <div class="form-group full-width">
+      <div class="btn-wrapper">
+        <button type="submit" class="btn primary">
+          {{ isEditMode ? 'Update Employee' : 'Save Employee' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="alert success full-width" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <!-- ERROR -->
+    <div class="alert error full-width" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+  </form>
+</div>

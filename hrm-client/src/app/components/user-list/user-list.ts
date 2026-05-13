@@ -79,6 +79,15 @@ export class UserListComponent implements OnInit {
 
   // DELETE USER
   deleteUser(id: number): void {
+
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this user?'
+    );
+
+    if (!confirmDelete) {
+      return; // stop if user clicks Cancel
+    }
+
     this.userService.deleteUser(id).subscribe({
       next: () => {
         this.loadUsers();

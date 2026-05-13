@@ -1,7 +1,7 @@
 /* PAGE HEADER */
 .page-header {
-  width: 80%;
-  margin: 20px auto;
+  width: 100%;
+  margin: 0px auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -52,7 +52,7 @@
 
 /* TABLE */
 .table-container {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -61,6 +61,7 @@ table {
   border-collapse: collapse;
   background: #fff;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  margin-top: 5px;
 }
 
 /* HEADER */

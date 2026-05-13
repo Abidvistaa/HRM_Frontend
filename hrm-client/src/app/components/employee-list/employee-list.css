@@ -1,83 +1,117 @@
-/* Page Title */
-h2 {
-  text-align: center;
-  margin: 25px 0;
+/* HEADER */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
   font-family: Arial, sans-serif;
+}
+
+/* TITLE LEFT */
+.page-header h2 {
+  margin: 0;
   color: #333;
 }
 
-/* Table Styling */
+/* RIGHT CONTROLS */
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* SEARCH + SELECT */
+.header-controls input,
+.header-controls select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* TABLE */
 table {
   width: 100%;
   border-collapse: collapse;
-  background: #ffffff;
+  background: #fff;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   font-family: Arial, sans-serif;
 }
 
-/* Header */
 thead {
-  background: #4f46e5;
+  background: #74729c;
   color: white;
 }
 
-thead th {
-  padding: 15px;
+th, td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
   text-align: left;
-  font-size: 15px;
 }
 
-/* Table Rows */
-tbody td {
-  padding: 14px 15px;
-  border-bottom: 1px solid #eeeeee;
-  color: #444;
-}
-
-/* Alternate Row Color */
+/* ROW */
 tbody tr:nth-child(even) {
   background: #f9f9f9;
 }
 
-/* Hover Effect */
 tbody tr:hover {
   background: #eef2ff;
-  transition: 0.3s;
 }
 
-/* Delete Button */
+/* BUTTONS */
 button {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+/* EDIT */
+button.edit {
+  background: #0d6efd;
+  color: white;
+}
+
+/* DELETE */
+button.delete {
   background: #dc2626;
   color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: 0.3s;
 }
 
-/* Hover Effect */
-button:hover {
-  background: #b91c1c;
-  transform: translateY(-1px);
+/* PAGINATION */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  gap: 10px;
 }
 
-/* Responsive Table */
+.pagination button {
+  background: #4f46e5;
+  color: white;
+}
+
+.pagination button:disabled {
+  background: #ccc;
+}
+
+/* RESPONSIVE */
 @media (max-width: 768px) {
-  table {
-    font-size: 14px;
+  .page-header {
+    flex-direction: column;
+    gap: 10px;
   }
 
-  thead th,
-  tbody td {
-    padding: 10px;
+  .header-controls {
+    flex-direction: column;
+    width: 100%;
   }
 
-  button {
-    padding: 6px 10px;
-    font-size: 12px;
+  .header-controls input,
+  .header-controls select {
+    width: 100%;
   }
 }

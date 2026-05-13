@@ -47,11 +47,10 @@ export class EmployeeService {
 
   // UPDATE
   updateEmployee(id: number, obj: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/UpdateEmployee}`, obj, {
+    return this.http.put(`${this.apiUrl}/UpdateEmployee/${id}`, obj, {
       headers: this.getAuthHeaders()
     });
   }
-
   // DELETE
   deleteEmployee(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/DeleteEmployee/${id}`, {

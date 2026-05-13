@@ -30,7 +30,7 @@ export class LoginComponent {
     next: (res: any) => {
 
       if (res && res.success === true) {
-        this.router.navigate(['/user-list']);
+        this.router.navigate(['/userlist']);
       }
       else {
         this.error = 'Invalid username or password';

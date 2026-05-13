@@ -1,0 +1,18 @@
+.main-content {
+
+  margin-top: 70px;
+
+  background: #F3F4F6;
+
+  min-height: calc(100vh - 70px);
+
+  transition: 0.3s ease;
+}
+
+/* ONLY AFTER LOGIN */
+
+.with-sidebar {
+
+  margin-left: 150px;
+  padding: 25px;
+}

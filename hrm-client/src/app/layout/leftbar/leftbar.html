@@ -1,0 +1,57 @@
+<div class="sidebar" *ngIf="isLoggedIn">
+
+  <div class="menu-title">MENU</div>
+
+  <!-- USER -->
+  <div class="menu-group has-dropdown">
+    <div class="group-title">
+      <span class="material-icons">group</span>
+      User
+    </div>
+
+    <div class="submenu">
+      <a routerLink="/register" routerLinkActive="active-link">Register</a>
+      <a routerLink="/userlist" routerLinkActive="active-link">User List</a>
+    </div>
+  </div>
+
+  <!-- EMPLOYEE -->
+  <div class="menu-group has-dropdown">
+    <div class="group-title">
+      <span class="material-icons">badge</span>
+      Employee
+    </div>
+
+    <div class="submenu">
+      <a routerLink="/employee/create" routerLinkActive="active-link">Create Employee</a>
+      <a routerLink="/employeelist" routerLinkActive="active-link">Employee List</a>
+    </div>
+  </div>
+
+  <!-- SALARY -->
+  <div class="menu-group has-dropdown">
+    <div class="group-title">
+      <span class="material-icons">payments</span>
+      Salary
+    </div>
+
+    <div class="submenu">
+      <a routerLink="/salary-create" routerLinkActive="active-link">Create Salary</a>
+      <a routerLink="/salary-list" routerLinkActive="active-link">Salary List</a>
+    </div>
+  </div>
+
+  <!-- PAYROLL -->
+  <div class="menu-group has-dropdown">
+    <div class="group-title">
+      <span class="material-icons">account_balance_wallet</span>
+      Payroll
+    </div>
+
+    <div class="submenu">
+      <a routerLink="/payroll-create" routerLinkActive="active-link">Create Payroll</a>
+      <a routerLink="/payroll-list" routerLinkActive="active-link">Payroll List</a>
+    </div>
+  </div>
+
+</div>

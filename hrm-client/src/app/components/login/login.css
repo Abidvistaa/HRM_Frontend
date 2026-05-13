@@ -1,10 +1,9 @@
 /* Full Page Background */
 .login-container {
-  height: 80vh;
+  height: 75vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #ffffff;
   font-family: Arial, sans-serif;
   padding: 20px;
 }

@@ -1,21 +1,73 @@
-<h2>Employee List</h2>
+<div class="page-header">
 
-<table border="1" width="100%">
+  <!-- LEFT TITLE -->
+  <h2>Employee List</h2>
+
+  <!-- RIGHT CONTROLS -->
+  <div class="header-controls">
+
+    <!-- SEARCH -->
+    <input
+      type="text"
+      placeholder="Search employee..."
+      [(ngModel)]="searchText"
+      (input)="onSearch()"
+    />
+
+    <!-- PAGE SIZE -->
+    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">
+        {{ size }}
+      </option>
+    </select>
+
+  </div>
+</div>
+
+<!-- TABLE -->
+<table>
   <thead>
     <tr>
       <th>ID</th>
       <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Account No.</th>
+      <th>Department</th>
+      <th>Status</th>
+      <th>Hire Date</th>
       <th>Action</th>
     </tr>
   </thead>
 
   <tbody>
-    <tr *ngFor="let emp of employees">
+    <tr *ngFor="let emp of pagedEmployees">
+      <td>{{ emp.id }}</td>
       <td>{{ emp.name }}</td>
       <td>{{ emp.email }}</td>
+       <td>{{ emp.phone }}</td>
+      <td>{{ emp.accountNumber }}</td>
+      <td>{{ emp.department }}</td>
+      <td>{{ emp.employmentStatus }}</td>
+      <td>{{ emp.hireDate | date:'dd-MM-yyyy' }}</td>
       <td>
-        <button (click)="deleteEmployee(emp.id)">Delete</button>
+        <button class="edit" (click)="editEmployee(emp.id)">Edit</button>
+        <button class="delete" (click)="deleteEmployee(emp.id)">Delete</button>
       </td>
     </tr>
   </tbody>
 </table>
+
+<!-- PAGINATION -->
+<div class="pagination">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+
+  <span>Page {{ currentPage }}</span>
+
+  <button
+    (click)="nextPage()"
+    [disabled]="currentPage * pageSize >= filteredEmployees.length"
+  >
+    Next
+  </button>
+</div>
