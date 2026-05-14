@@ -124,13 +124,19 @@ export class EmployeeFormComponent implements OnInit {
 
         this.errorMessage = '';
 
-        this.autoClearMessages();
-      },
+        // RESET FORM AFTER SUCCESS
+        this.employeeForm.reset({
+          id: 0,
+          name: '',
+          email: '',
+          phone: '',
+          department: '',
+          accountNumber: '',
+          employmentStatus: 'Active',
+          hireDate: ''
+        });
 
-      error: () => {
-        this.errorMessage = 'Operation failed!';
-        this.successMessage = '';
-
+        this.setCreateMode(); 
         this.autoClearMessages();
       }
     });
@@ -141,7 +147,7 @@ export class EmployeeFormComponent implements OnInit {
     this.setCreateMode();
   }
 
-  // 🔥 AUTO CLEAR MESSAGES (SUCCESS + ERROR)
+  //AUTO CLEAR MESSAGES (SUCCESS + ERROR)
   private autoClearMessages(delay: number = 3000): void {
     setTimeout(() => {
       this.successMessage = '';

@@ -1,3 +1,4 @@
+/* SIDEBAR */
 .sidebar {
   width: 150px;
   height: calc(100vh - 70px);
@@ -25,7 +26,7 @@
   position: relative;
 }
 
-/* HEADER */
+/* GROUP TITLE */
 .group-title {
   display: flex;
   align-items: center;
@@ -35,15 +36,13 @@
   font-weight: 600;
   color: #E5E7EB;
   cursor: pointer;
-
   transition: all 0.25s ease;
   transform-origin: left;
 }
 
-/* MAIN MENU HOVER TRANSFORM */
+/* ONLY TEXT TRANSFORM */
 .menu-group:hover > .group-title {
-  background: #1f2937;
-  transform: translateX(2px) scale(1.03);
+  transform: translateX(3px) scale(1.03);
 }
 
 /* SUBMENU */
@@ -54,7 +53,6 @@
   width: 180px;
 
   background: #0f172a;
-
   display: flex;
   flex-direction: column;
 
@@ -72,7 +70,7 @@
   box-shadow: 0 10px 25px rgba(0,0,0,0.35);
 }
 
-/* SHOW ON HOVER */
+/* SHOW SUBMENU */
 .menu-group:hover .submenu,
 .submenu:hover {
   opacity: 1;
@@ -81,31 +79,64 @@
   pointer-events: auto;
 }
 
+/* SUBMENU BACKGROUND HOVER EFFECT */
+.submenu:hover {
+  background: #111c33;
+}
+
 /* LINKS */
 .submenu a {
   padding: 10px 20px;
   color: #D1D5DB;
   text-decoration: none;
   white-space: nowrap;
-
   transition: all 0.2s ease;
 }
 
-/* LINK HOVER */
+/* ONLY TEXT SHIFT (NO BG CHANGE) */
 .submenu a:hover {
-  background: #1E3A8A;
   color: white;
   padding-left: 24px;
-
+  background-color: rgb(19, 78, 240);
 }
 
 /* ACTIVE ROUTE */
 .active-link {
-  background: #2563EB;
-  color: white !important;
+  color: yellow !important;
+  font-weight: 600;
+  background-color: rgb(19, 78, 240);
 }
 
 /* ICON */
 .material-icons {
   font-size: 18px;
+}
+
+/* HOME MENU */
+.menu-single {
+  padding: 5px 0;
+}
+
+.menu-single a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 25px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #E5E7EB;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+/* HOME HOVER ONLY TRANSFORM */
+.menu-single a:hover {
+  transform: translateX(3px) scale(1.03);
+  color: white;
+}
+
+/* HOME ACTIVE */
+.menu-single a.active-link {
+  color: white !important;
+  font-weight: 600;
 }

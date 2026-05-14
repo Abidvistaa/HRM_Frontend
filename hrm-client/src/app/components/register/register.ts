@@ -87,8 +87,4 @@ export class RegisterComponent implements OnInit {
     this.router.navigateByUrl('');
   }
 
-  goToUserList() {
-    this.router.navigateByUrl('/user-list');
-  }
-
 }

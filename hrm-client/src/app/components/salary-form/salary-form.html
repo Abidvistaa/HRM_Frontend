@@ -1,0 +1,115 @@
+<div class="salary-container">
+
+  <div class="header">
+    <h2>{{ isEditMode ? 'Edit Salary' : 'Create Salary' }}</h2>
+  </div>
+
+  <form [formGroup]="salaryForm"
+        (ngSubmit)="onSubmit()"
+        class="form-grid">
+
+    <!-- EMPLOYEE -->
+    <div class="form-group">
+
+      <label>Employee</label>
+
+      <small class="text-danger"
+        *ngIf="salaryForm.get('employeeId')?.invalid &&
+               salaryForm.get('employeeId')?.touched">
+
+        Required
+
+      </small>
+
+      <select class="form-control"
+              formControlName="employeeId"
+              [disabled]="isEditMode">
+
+        <option [ngValue]="null" disabled>
+          Select Employee
+        </option>
+
+        <option *ngFor="let emp of employees"
+                [value]="emp.id">
+
+          {{ emp.idPlusName }}
+
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- BASIC SALARY -->
+    <div class="form-group">
+
+      <label>Basic Salary</label>
+
+      <small class="text-danger"
+        *ngIf="salaryForm.get('basicSalary')?.invalid &&
+               salaryForm.get('basicSalary')?.touched">
+
+        Required
+
+      </small>
+
+      <input type="number"
+             class="form-control"
+             formControlName="basicSalary">
+
+    </div>
+
+    <!-- EFFECTIVE DATE -->
+    <div class="form-group">
+
+      <label>Effective Date</label>
+
+      <small class="text-danger"
+        *ngIf="salaryForm.get('effectiveDate')?.invalid &&
+               salaryForm.get('effectiveDate')?.touched">
+
+        Required
+
+      </small>
+
+      <input type="date"
+             class="form-control"
+             formControlName="effectiveDate">
+
+    </div>
+
+    <!-- BUTTON -->
+    <div class="form-group full-width">
+
+      <div class="btn-wrapper">
+
+        <button type="submit"
+                class="btn primary">
+
+          {{ isEditMode ? 'Update Salary' : 'Save Salary' }}
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="alert success full-width"
+         *ngIf="successMessage">
+
+      {{ successMessage }}
+
+    </div>
+
+    <!-- ERROR -->
+    <div class="alert error full-width"
+         *ngIf="errorMessage">
+
+      {{ errorMessage }}
+
+    </div>
+
+  </form>
+
+</div>

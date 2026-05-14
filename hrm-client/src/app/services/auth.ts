@@ -15,14 +15,19 @@ export class AuthService {
     private router: Router
   ) {}
 
-  login(data: { username: string; password: string }): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/Login`, data).pipe(
-      tap((res) => {
+ login(data: { username: string; password: string }): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/Login`, data).pipe(
+    tap((res) => {
+
+      // only store if success
+      if (res && res.success === true) {
         localStorage.setItem('token', res.token);
         localStorage.setItem('username', res.userName);
-      })
-    );
-  }
+        localStorage.setItem('rolename', res.roleName);
+      }
+    })
+  );
+}
 
   getToken(): string | null {
     return localStorage.getItem('token');
@@ -30,6 +35,10 @@ export class AuthService {
 
   getUsername(): string {
     return localStorage.getItem('username') || '';
+  }
+
+  getRolename(): string {
+    return localStorage.getItem('rolename') || '';
   }
 
   isLoggedIn(): boolean {

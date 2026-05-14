@@ -1,0 +1,80 @@
+<div class="page-header">
+
+  <!-- LEFT TITLE -->
+  <h2>Salary List</h2>
+
+  <!-- RIGHT CONTROLS -->
+  <div class="header-controls">
+
+    <!-- SEARCH -->
+    <input
+      type="text"
+      placeholder="Search salary..."
+      [(ngModel)]="searchText"
+      (input)="onSearch()"
+    />
+
+    <!-- PAGE SIZE -->
+    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">
+        {{ size }}
+      </option>
+    </select>
+
+  </div>
+</div>
+
+<!-- TABLE -->
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Employee Id</th>
+      <th>Employee Name</th>
+      <th>Basic Salary</th>
+      <th>Effective Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let salary of pagedSalaries">
+      <td>{{ salary.id }}</td>
+      <td>{{ salary.employeeId }}</td>
+      <td>{{ salary.employeeName }}</td>
+      <td>{{ salary.basicSalary }}</td>
+      <td>{{ salary.effectiveDate | date:'dd-MM-yyyy'  }}</td>
+
+      <td>
+        <button class="edit" (click)="editSalary(salary.id)">
+          Edit
+        </button>
+
+        <button class="delete" (click)="deleteSalary(salary.id)">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- PAGINATION -->
+<div class="pagination">
+
+  <button
+    (click)="prevPage()"
+    [disabled]="currentPage === 1"
+  >
+    Prev
+  </button>
+
+  <span>Page {{ currentPage }}</span>
+
+  <button
+    (click)="nextPage()"
+    [disabled]="currentPage * pageSize >= filteredSalaries.length"
+  >
+    Next
+  </button>
+
+</div>

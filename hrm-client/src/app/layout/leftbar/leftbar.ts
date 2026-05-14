@@ -17,4 +17,20 @@ export class LeftbarComponent {
   get isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
+
+  get role(): string {
+    return this.authService.getRolename();
+  }
+
+  isAdmin(): boolean {
+    return this.role === 'Admin';
+  }
+
+  isHR(): boolean {
+    return this.role === 'HR';
+  }
+
+  isFinance(): boolean {
+    return this.role === 'Finance';
+  }
 }
