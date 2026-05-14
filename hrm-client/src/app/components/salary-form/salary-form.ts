@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { SalaryService } from '../../services/salary';
 import { EmployeeService } from '../../services/employee';
@@ -28,7 +28,8 @@ export class SalaryFormComponent implements OnInit {
     private fb: FormBuilder,
     private salaryService: SalaryService,
     private employeeService: EmployeeService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -134,7 +135,8 @@ onSubmit(): void {
           basicSalary: '',
           effectiveDate: ''
         });
-
+    // AFTER UPDATE → GO TO LIST
+            this.router.navigate(['/salarylist']);
         // employee still disabled in edit mode
         this.salaryForm.get('employeeId')?.disable();
       }

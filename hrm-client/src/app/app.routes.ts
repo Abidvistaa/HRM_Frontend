@@ -7,6 +7,8 @@ import { EmployeeFormComponent } from './components/employee-form/employee-form'
 import { EmployeeListComponent } from './components/employee-list/employee-list';
 import { SalaryFormComponent } from './components/salary-form/salary-form';
 import { SalaryListComponent } from './components/salary-list/salary-list';
+import { PayrollFormComponent } from './components/payroll-form/payroll-form';
+import { PayrollListComponent } from './components/payroll-list/payroll-list';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -19,4 +21,7 @@ export const routes: Routes = [
   { path: 'salary/create', component: SalaryFormComponent },
   { path: 'salary/edit/:id', component: SalaryFormComponent },
   { path: 'salarylist', component: SalaryListComponent },
+  { path: 'payroll/create', component: PayrollFormComponent },
+  { path: 'payroll/edit/:id', component: PayrollFormComponent },
+  { path: 'payrolllist', component: PayrollListComponent },
 ];

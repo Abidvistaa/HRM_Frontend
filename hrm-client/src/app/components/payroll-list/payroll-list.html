@@ -1,0 +1,119 @@
+<div class="page-header">
+
+  <!-- LEFT TITLE -->
+  <h2>Payroll List</h2>
+
+  <!-- RIGHT CONTROLS -->
+  <div class="header-controls">
+
+    <!-- SEARCH -->
+    <input
+      type="text"
+      placeholder="Search employee..."
+      [(ngModel)]="searchText"
+      (input)="onSearch()"
+    />
+
+    <!-- PAGE SIZE -->
+    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+
+      <option *ngFor="let size of pageSizeOptions" [value]="size">
+        {{ size }}
+      </option>
+
+    </select>
+
+  </div>
+
+</div>
+
+<!-- TABLE -->
+<table>
+
+  <thead>
+
+    <tr>
+      <th>ID</th>
+      <th>Employee</th>
+      <th>Month</th>
+      <th>Year</th>
+      <th>Basic Salary</th>
+      <th>Bonus</th>
+      <th>Deduction</th>
+      <th>Tax(%)</th>
+      <th>Net Salary</th>
+      <th>Action Date</th>
+      <th>Proceesing</th>
+      <th>Action</th>
+    </tr>
+
+  </thead>
+
+  <tbody>
+
+    <tr *ngFor="let payroll of pagedPayrolls">
+
+      <td>{{ payroll.id }}</td>
+
+      <td>{{ payroll.employeeName }}</td>
+
+      <td>{{ payroll.payrollMonthString }}</td>
+
+      <td>{{ payroll.payrollYear }}</td>
+
+      <td>{{ payroll.basicSalary | number:'1.2-2' }}</td>
+
+      <td>{{ payroll.bonus }}</td>
+
+      <td>{{ payroll.deduction }}</td>
+
+      <td>{{ payroll.tax }}</td>
+
+      <td>{{ payroll.netSalary | number:'1.2-2' }}</td>
+
+      <td>{{ payroll.status }}</td>
+
+      <td>{{ payroll.actionDate | date:'dd MMM yyyy' }}</td>
+
+      <td>
+
+        <button class="edit" (click)="editPayroll(payroll.id)">
+          Edit
+        </button>
+
+        <button class="delete" (click)="deletePayroll(payroll.id)">
+          Delete
+        </button>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+
+</table>
+
+<!-- PAGINATION -->
+<div class="pagination">
+
+  <button
+    (click)="prevPage()"
+    [disabled]="currentPage === 1">
+
+    Prev
+
+  </button>
+
+  <span>
+    Page {{ currentPage }}
+  </span>
+
+  <button
+    (click)="nextPage()"
+    [disabled]="currentPage * pageSize >= filteredPayrolls.length">
+
+    Next
+
+  </button>
+
+</div>

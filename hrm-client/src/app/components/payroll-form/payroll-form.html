@@ -1,0 +1,122 @@
+<div class="payroll-container">
+
+  <div class="header">
+    <h2>{{ isEditMode ? 'Edit Payroll' : 'Create Payroll' }}</h2>
+  </div>
+
+  <form [formGroup]="payrollForm" (ngSubmit)="onSubmit()" class="form-grid">
+
+    <!-- LEFT SIDE -->
+    <div>
+
+      <!-- EMPLOYEE -->
+      <div class="form-group">
+        <label>Employee</label>
+
+        <small class="text-danger"
+          *ngIf="payrollForm.get('salaryId')?.invalid &&
+                 payrollForm.get('salaryId')?.touched">
+          Required
+        </small>
+
+        <select class="form-control"
+                formControlName="salaryId"
+                         [disabled]="isEditMode">
+
+          <option [ngValue]="null" disabled>Select Employee</option>
+
+          <option *ngFor="let sal of salaries" [ngValue]="sal.id">
+            {{ sal.idPlusName }}
+          </option>
+
+        </select>
+      </div>
+
+      <!-- MONTH -->
+      <div class="form-group">
+        <label>Payroll Month</label>
+
+        <select class="form-control" formControlName="payrollMonth">
+          <option [ngValue]="1">January</option>
+          <option [ngValue]="2">February</option>
+          <option [ngValue]="3">March</option>
+          <option [ngValue]="4">April</option>
+          <option [ngValue]="5">May</option>
+          <option [ngValue]="6">June</option>
+          <option [ngValue]="7">July</option>
+          <option [ngValue]="8">August</option>
+          <option [ngValue]="9">September</option>
+          <option [ngValue]="10">October</option>
+          <option [ngValue]="11">November</option>
+          <option [ngValue]="12">December</option>
+        </select>
+      </div>
+
+      <!-- YEAR -->
+      <div class="form-group">
+        <label>Payroll Year</label>
+        <input type="number"
+               class="form-control"
+               formControlName="payrollYear">
+      </div>
+
+      <!-- BASIC SALARY -->
+      <div class="form-group">
+        <label>Basic Salary</label>
+
+        <input type="number"
+               class="form-control"
+               [value]="basicSalary"
+               readonly>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div>
+
+      <div class="form-group">
+        <label>Bonus</label>
+        <input type="number" class="form-control" formControlName="bonus">
+      </div>
+
+      <div class="form-group">
+        <label>Deduction</label>
+        <input type="number" class="form-control" formControlName="deduction">
+      </div>
+
+      <div class="form-group">
+        <label>Tax (%)</label>
+        <input type="number" class="form-control" formControlName="tax">
+      </div>
+
+      <div class="form-group">
+        <label>Net Salary</label>
+        <input type="number"
+               class="form-control"
+               formControlName="netSalary"
+               readonly>
+      </div>
+
+    </div>
+
+    <!-- BUTTON -->
+    <div class="form-group full-width">
+      <div class="btn-wrapper">
+        <button type="submit" class="btn primary">
+          {{ isEditMode ? 'Update Payroll' : 'Save Payroll' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="alert success full-width" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <div class="alert error full-width" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+  </form>
+</div>

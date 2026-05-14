@@ -136,7 +136,7 @@ export class EmployeeFormComponent implements OnInit {
           hireDate: ''
         });
 
-        this.setCreateMode(); 
+        this.setCreateMode();
         this.autoClearMessages();
       }
     });

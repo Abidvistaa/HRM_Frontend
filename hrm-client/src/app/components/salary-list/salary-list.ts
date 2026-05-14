@@ -53,7 +53,7 @@ export class SalaryListComponent implements OnInit {
     const text = this.searchText.toLowerCase();
 
     this.filteredSalaries = this.salaries.filter(s =>
-      (s.employeeName ?? '').toLowerCase().includes(text)
+      (s.employeeId ?? '').toLowerCase().includes(text)
     );
 
     this.currentPage = 1;
