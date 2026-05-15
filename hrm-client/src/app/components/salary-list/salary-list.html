@@ -43,7 +43,7 @@
       <td>{{ salary.employeeId }}</td>
       <td>{{ salary.employeeName }}</td>
       <td>{{ salary.basicSalary }}</td>
-      <td>{{ salary.effectiveDate | date:'dd-MM-yyyy'  }}</td>
+      <td>{{ salary.effectiveDate | date:'dd MMM yyyy' }}</td>
 
       <td>
         <button class="edit" (click)="editSalary(salary.id)">

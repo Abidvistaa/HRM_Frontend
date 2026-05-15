@@ -8,22 +8,33 @@
 
     <div class="actions">
 
-      <button routerLink="/payroll/automate" class="btn">
+      <button  *ngIf="isHR()" routerLink="/payroll/create" class="btn">
         Generate Payroll
       </button>
 
-      <button routerLink="/payroll/create" class="btn">
-        Create Payroll
-      </button>
-
-      <button routerLink="/employee/create" class="btn">
+      <button *ngIf="isHR()" routerLink="/employee/create" class="btn">
         Create Employee
       </button>
 
-      <button routerLink="/salary/create" class="btn">
+      <button *ngIf=" isHR()" routerLink="/salary/create" class="btn">
         Create Salary
       </button>
 
+      <button  *ngIf="isAdmin()" routerLink="/userlist" class="btn">
+        Use List
+      </button>
+
+      <button  *ngIf="isAdmin() || isHR()" routerLink="/payrolllist" class="btn">
+        Payroll List
+      </button>
+
+      <button *ngIf="isAdmin() || isHR()" routerLink="/employeelist" class="btn">
+        Employee List
+      </button>
+
+      <button *ngIf="isAdmin() || isHR() || isFinance()" routerLink="/salarylist" class="btn">
+        Salary List
+      </button>
     </div>
 
   </div>

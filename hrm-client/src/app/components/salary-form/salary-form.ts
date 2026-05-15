@@ -122,8 +122,8 @@ onSubmit(): void {
     next: () => {
 
       this.successMessage = this.isEditMode
-        ? 'Salary updated successfully!'
-        : 'Salary created successfully!';
+        ? 'Salary updated successfully.'
+        : 'Salary created successfully.';
 
       this.errorMessage = '';
 

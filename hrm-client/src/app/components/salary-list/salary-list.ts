@@ -32,38 +32,58 @@ export class SalaryListComponent implements OnInit {
     this.loadSalaries();
   }
 
-  // LOAD
+  // LOAD DATA
   loadSalaries(): void {
-
     this.salaryService.getSalaries().subscribe({
-
       next: (data) => {
         this.salaries = data;
         this.filteredSalaries = data;
       },
-
       error: (err) => console.error(err)
-
     });
   }
 
-  // SEARCH
-  onSearch(): void {
+  // SEARCH (FIXED)
+onSearch(): void {
+  const text = this.searchText.toLowerCase().trim();
 
-    const text = this.searchText.toLowerCase();
-
-    this.filteredSalaries = this.salaries.filter(s =>
-      (s.employeeId ?? '').toLowerCase().includes(text)
-    );
-
-    this.currentPage = 1;
+  if (!text) {
+    this.filteredSalaries = this.salaries;
+    return;
   }
+
+  this.filteredSalaries = this.salaries.filter(s => {
+
+    const employeeId = String(s.employeeId ?? '').toLowerCase();
+    const employeeName = String(s.employeeName ?? '').toLowerCase();
+
+    let effectivedateformat = '';
+
+    if (s.effectiveDate) {
+      const date = new Date(s.effectiveDate);
+
+      effectivedateformat = date.toLocaleString('en-US', { month: 'long' }).toLowerCase();
+      // example: "may"
+    }
+
+    const fullDate = s.effectiveDate
+      ? new Date(s.effectiveDate).toLocaleDateString().toLowerCase()
+      : '';
+
+    return (
+      employeeId.includes(text) ||
+      employeeName.includes(text) ||
+      effectivedateformat.includes(text) ||   
+      fullDate.includes(text)
+    );
+  });
+
+  this.currentPage = 1;
+}
 
   // PAGINATION
   get pagedSalaries() {
-
-    const start =
-      (this.currentPage - 1) * this.pageSize;
+    const start = (this.currentPage - 1) * this.pageSize;
 
     return this.filteredSalaries.slice(
       start,
@@ -76,17 +96,12 @@ export class SalaryListComponent implements OnInit {
   }
 
   nextPage(): void {
-
-    if (
-      this.currentPage * this.pageSize
-      < this.filteredSalaries.length
-    ) {
+    if (this.currentPage * this.pageSize < this.filteredSalaries.length) {
       this.currentPage++;
     }
   }
 
   prevPage(): void {
-
     if (this.currentPage > 1) {
       this.currentPage--;
     }
@@ -94,32 +109,21 @@ export class SalaryListComponent implements OnInit {
 
   // EDIT
   editSalary(id: number): void {
-
-    this.router.navigate([
-      '/salary/edit',
-      id
-    ]);
+    this.router.navigate(['/salary/edit', id]);
   }
 
   // DELETE
   deleteSalary(id: number): void {
 
-    const confirmDelete = window.confirm(
+    const confirmDelete = confirm(
       'Are you sure you want to delete this salary record?'
     );
 
-    if (!confirmDelete) {
-      return;
-    }
+    if (!confirmDelete) return;
 
     this.salaryService.deleteSalary(id).subscribe({
-
-      next: () => {
-        this.loadSalaries();
-      },
-
+      next: () => this.loadSalaries(),
       error: (err) => console.error(err)
-
     });
   }
 }

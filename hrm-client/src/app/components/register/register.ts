@@ -58,7 +58,7 @@ export class RegisterComponent implements OnInit {
   this.userService.registerUser(this.registerForm.value).subscribe({
     next: () => {
 
-      this.successMessage = 'User created successfully!';
+      this.successMessage = 'User created successfully';
       this.errorMessage = '';
 
       this.registerForm.reset();

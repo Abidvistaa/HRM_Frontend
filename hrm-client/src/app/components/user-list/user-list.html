@@ -45,7 +45,7 @@
       <td>{{ obj.id }}</td>
       <td>{{ obj.userName }}</td>
       <td>{{ obj.roleName }}</td>
-      <td>{{ obj.actionDate | date:'dd-MM-yyyy hh:mm a' }}</td>
+      <td>{{ obj.actionDate | date:'dd MMM yyyy hh:mm a' }}</td>
       <td>
         <button (click)="deleteUser(obj.id)">Delete</button>
       </td>

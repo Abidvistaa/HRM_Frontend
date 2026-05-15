@@ -29,41 +29,62 @@ export class PayrollListComponent implements OnInit {
     private router: Router
   ) {}
 
+  // ✅ Month map (DB 1–12 → name)
+  private monthNames: string[] = [
+    '',
+    'jan', 'feb', 'mar', 'apr', 'may', 'jun',
+    'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
+  ];
+
   ngOnInit(): void {
     this.loadPayrolls();
   }
 
-  // LOAD PAYROLLS
+  // LOAD DATA
   loadPayrolls(): void {
-
     this.payrollService.getPayrolls().subscribe({
       next: (data) => {
-
         this.payrolls = data;
         this.filteredPayrolls = data;
-
       },
       error: (err) => console.error(err)
     });
   }
 
-  // SEARCH
-  onSearch(): void {
+onSearch(): void {
+  const text = this.searchText.toLowerCase().trim();
 
-    const text = this.searchText.toLowerCase();
+  if (!text) {
+    this.filteredPayrolls = this.payrolls;
+    return;
+  }
 
-    this.filteredPayrolls = this.payrolls.filter(p =>
-      (p.employeeName ?? '').toLowerCase().includes(text)
+  this.filteredPayrolls = this.payrolls.filter(p => {
+    const name = String(p.employeeName ?? '').toLowerCase();
+    const month = String(p.payrollMonthString ?? '').toLowerCase();
+
+    return (
+      name.includes(text) ||
+      month.includes(text)
     );
+  });
 
-    this.currentPage = 1;
+  this.currentPage = 1;
+}
+
+  // OPTIONAL: for UI display (Jan, Feb)
+  getMonthName(month: number): string {
+    const names = [
+      '',
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    return names[month] || '';
   }
 
   // PAGINATION
   get pagedPayrolls() {
-
     const start = (this.currentPage - 1) * this.pageSize;
-
     return this.filteredPayrolls.slice(start, start + this.pageSize);
   }
 
@@ -72,14 +93,12 @@ export class PayrollListComponent implements OnInit {
   }
 
   nextPage(): void {
-
     if (this.currentPage * this.pageSize < this.filteredPayrolls.length) {
       this.currentPage++;
     }
   }
 
   prevPage(): void {
-
     if (this.currentPage > 1) {
       this.currentPage--;
     }
@@ -87,25 +106,20 @@ export class PayrollListComponent implements OnInit {
 
   // EDIT
   editPayroll(id: number): void {
-
     this.router.navigate(['/payroll/edit', id]);
   }
 
   // DELETE
   deletePayroll(id: number): void {
 
-    const confirmDelete = window.confirm(
+    const confirmDelete = confirm(
       'Are you sure you want to delete this payroll?'
     );
 
-    if (!confirmDelete) {
-      return;
-    }
+    if (!confirmDelete) return;
 
     this.payrollService.deletePayroll(id).subscribe({
-      next: () => {
-        this.loadPayrolls();
-      },
+      next: () => this.loadPayrolls(),
       error: (err) => console.error(err)
     });
   }

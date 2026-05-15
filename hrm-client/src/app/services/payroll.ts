@@ -45,6 +45,13 @@ export class PayrollService {
     });
   }
 
+    // POST
+    autoGeneratePayroll(obj: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/AutoGeneratePayrollMonthly`, obj, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
   // UPDATE
   updatePayroll(id: number, obj: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/UpdatePayroll/${id}`, obj, {
