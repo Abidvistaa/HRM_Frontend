@@ -8,7 +8,6 @@ import {
 
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { EmployeeService } from '../../services/employee';
 
 @Component({
@@ -35,7 +34,6 @@ export class EmployeeFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     this.initForm();
 
     const id = this.route.snapshot.paramMap.get('id');
@@ -49,14 +47,17 @@ export class EmployeeFormComponent implements OnInit {
 
   // INIT FORM
   private initForm(): void {
-
     this.employeeForm = this.fb.group({
       id: [0],
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
+
+      // FIXED: must match dropdown empty string
       department: ['', Validators.required],
+
       accountNumber: ['', Validators.required],
+
       employmentStatus: ['Active', Validators.required],
       hireDate: ['', Validators.required]
     });
@@ -64,7 +65,6 @@ export class EmployeeFormComponent implements OnInit {
 
   // CREATE MODE
   setCreateMode(): void {
-
     this.isEditMode = false;
 
     this.employeeForm.reset({
@@ -83,11 +83,12 @@ export class EmployeeFormComponent implements OnInit {
 
   // LOAD EMPLOYEE
   loadEmployee(id: number): void {
-
     this.employeeService.getEmployee(id).subscribe({
 
-      next: (emp: any) => {
+      next: (res: any) => {
 
+       const emp = res.data;
+       
         this.isEditMode = true;
 
         const formattedDate = emp.hireDate
@@ -105,12 +106,10 @@ export class EmployeeFormComponent implements OnInit {
           hireDate: formattedDate
         });
 
-        // Disable hire date in edit mode
         this.employeeForm.get('hireDate')?.disable();
       },
 
       error: (err) => {
-
         this.errorMessage =
           err?.error?.message ||
           err?.error?.title ||
@@ -125,14 +124,12 @@ export class EmployeeFormComponent implements OnInit {
   onSubmit(): void {
 
     if (this.employeeForm.invalid) {
-
       this.employeeForm.markAllAsTouched();
       return;
     }
 
     const payload = this.employeeForm.getRawValue();
 
-    // DO NOT SEND HIREDATE IN EDIT MODE
     if (this.isEditMode) {
       delete payload.hireDate;
     }
@@ -143,9 +140,7 @@ export class EmployeeFormComponent implements OnInit {
 
     request$.subscribe({
 
-      // SUCCESS
       next: (res: any) => {
-
         this.successMessage =
           res?.message ||
           (this.isEditMode
@@ -156,22 +151,15 @@ export class EmployeeFormComponent implements OnInit {
 
         this.autoClearMessages();
 
-        // UPDATE MODE → NAVIGATE TO LIST
         if (this.isEditMode) {
-
           this.router.navigate(['/employeelist']);
           return;
         }
 
-        // CREATE MODE → RESET FORM
         this.setCreateMode();
       },
 
-      // ERROR
       error: (err) => {
-
-        console.log('Backend Error:', err);
-
         this.errorMessage =
           err?.error?.message ||
           err?.error?.title ||
@@ -185,20 +173,14 @@ export class EmployeeFormComponent implements OnInit {
     });
   }
 
-  // RESET FORM
   resetForm(): void {
-
     this.setCreateMode();
   }
 
-  // AUTO CLEAR MESSAGES
   private autoClearMessages(delay: number = 3000): void {
-
     setTimeout(() => {
-
       this.successMessage = '';
       this.errorMessage = '';
-
     }, delay);
   }
 }

@@ -37,7 +37,7 @@
       <input type="text" class="form-control" formControlName="phone">
     </div>
 
-    <!-- DEPARTMENT -->
+    <!-- DEPARTMENT (FIXED) -->
     <div class="form-group">
       <label>Department</label>
       <small class="text-danger"
@@ -46,12 +46,12 @@
       </small>
 
       <select class="form-control" formControlName="department">
-        <option [ngValue]="null" disabled>Select Department</option>
-        <option [ngValue]="'Admin'">Admin</option>
-        <option [ngValue]="'HR'">HR</option>
-        <option [ngValue]="'Faculty'">Faculty</option>
-        <option [ngValue]="'SDD'">SDD</option>
-        <option [ngValue]="'Finance'">Finance</option>
+        <option value="" disabled>Select Department</option>
+        <option value="Admin">Admin</option>
+        <option value="HR">HR</option>
+        <option value="Faculty">Faculty</option>
+        <option value="SDD">SDD</option>
+        <option value="Finance">Finance</option>
       </select>
     </div>
 

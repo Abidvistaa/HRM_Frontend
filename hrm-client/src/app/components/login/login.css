@@ -33,7 +33,7 @@
   font-size: 14px;
 }
 
-/* Form Inputs */
+/* Inputs */
 .login-card input {
   width: 100%;
   padding: 14px;
@@ -45,14 +45,14 @@
   box-sizing: border-box;
 }
 
-/* Input Focus Effect */
+/* Input Focus */
 .login-card input:focus {
   border-color: #4f46e5;
   outline: none;
   box-shadow: 0 0 6px rgba(79, 70, 229, 0.3);
 }
 
-/* Login Button */
+/* Button */
 .login-card button {
   width: 100%;
   padding: 14px;
@@ -61,15 +61,22 @@
   border: none;
   border-radius: 10px;
   font-size: 16px;
-  cursor: pointer;
+  cursor: pointer; /* ✅ FIXED CURSOR */
   transition: 0.3s;
   font-weight: bold;
 }
 
-/* Hover Effect */
+/* Hover */
 .login-card button:hover {
   background: #4338ca;
   transform: translateY(-2px);
+}
+
+/* Disabled Button */
+.login-card button:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 /* Register Link */

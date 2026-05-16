@@ -81,7 +81,9 @@ export class SalaryFormComponent implements OnInit {
 
     this.salaryService.getSalary(id).subscribe({
 
-      next: (salary: any) => {
+      next: (res: any) => {
+
+       const salary = res.data;
 
         this.isEditMode = true;
 
