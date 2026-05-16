@@ -19,7 +19,12 @@
   align-items: center;
   gap: 10px;
 }
-
+.table-info {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  padding-left: 12px;
+}
 /* SEARCH + SELECT */
 .header-controls input,
 .header-controls select {

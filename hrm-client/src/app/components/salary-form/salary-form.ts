@@ -33,6 +33,7 @@ export class SalaryFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
     this.initForm();
     this.loadEmployees();
 
@@ -47,6 +48,7 @@ export class SalaryFormComponent implements OnInit {
 
   // INIT FORM
   private initForm(): void {
+
     this.salaryForm = this.fb.group({
       id: [0],
       employeeId: [null, Validators.required],
@@ -55,23 +57,37 @@ export class SalaryFormComponent implements OnInit {
     });
   }
 
-  // LOAD EMPLOYEES
+  // LOAD ACTIVE EMPLOYEES
   loadEmployees(): void {
-    this.employeeService.getEmployees().subscribe({
-      next: (res: any) => this.employees = res
+
+    this.employeeService.getActiveEmployees().subscribe({
+      next: (res: any) => {
+        this.employees = res.data;
+      },
+
+      error: (err) => {
+
+        this.errorMessage =
+          err?.error?.message ||
+          'Failed to load employees';
+
+        this.autoClearMessages();
+      }
     });
   }
 
-  // LOAD SALARY (EDIT MODE)
+  // LOAD SALARY FOR EDIT
   loadSalary(id: number): void {
+
     this.salaryService.getSalary(id).subscribe({
+
       next: (salary: any) => {
 
         this.isEditMode = true;
 
-        const formattedDate = salary.effectiveDate
-          ? new Date(salary.effectiveDate).toISOString().split('T')[0]
-          : '';
+        const formattedDate = this.formatDateForInput(
+          salary.effectiveDate
+        );
 
         this.salaryForm.patchValue({
           id: salary.id,
@@ -80,18 +96,45 @@ export class SalaryFormComponent implements OnInit {
           effectiveDate: formattedDate
         });
 
-        // disable employee dropdown in edit mode
+        // Disable employee change in edit mode
         this.salaryForm.get('employeeId')?.disable();
       },
-      error: () => {
-        this.errorMessage = 'Failed to load salary';
+
+      error: (err) => {
+
+        this.errorMessage =
+          err?.error?.message ||
+          'Failed to load salary';
+
         this.autoClearMessages();
       }
     });
   }
 
-  // CREATE MODE RESET
+  // FORMAT DATE
+  private formatDateForInput(dateValue: any): string {
+
+    if (!dateValue) return '';
+
+    if (
+      typeof dateValue === 'string' &&
+      dateValue.length >= 10
+    ) {
+      return dateValue.split('T')[0];
+    }
+
+    const date = new Date(dateValue);
+
+    const offsetDate = new Date(
+      date.getTime() - date.getTimezoneOffset() * 60000
+    );
+
+    return offsetDate.toISOString().split('T')[0];
+  }
+
+  // CREATE MODE
   setCreateMode(): void {
+
     this.isEditMode = false;
 
     this.salaryForm.reset({
@@ -104,68 +147,80 @@ export class SalaryFormComponent implements OnInit {
     this.salaryForm.get('employeeId')?.enable();
   }
 
-  // SUBMIT
-onSubmit(): void {
+  // SUBMIT FORM
+  onSubmit(): void {
 
-  if (this.salaryForm.invalid) {
-    this.salaryForm.markAllAsTouched();
-    return;
+    if (this.salaryForm.invalid) {
+
+      this.salaryForm.markAllAsTouched();
+      return;
+    }
+
+    const payload = this.salaryForm.getRawValue();
+
+    const request$ = this.isEditMode
+      ? this.salaryService.updateSalary(payload.id, payload)
+      : this.salaryService.addSalary(payload);
+
+    request$.subscribe({
+
+      // SUCCESS
+      next: (res: any) => {
+
+        this.successMessage =
+          res?.message ||
+          (this.isEditMode
+            ? 'Salary updated successfully.'
+            : 'Salary created successfully.');
+
+        this.errorMessage = '';
+
+        // EDIT MODE → GO TO LIST
+        if (this.isEditMode) {
+
+          this.router.navigate(['/salarylist']);
+
+        } else {
+
+          // CREATE MODE → RESET FORM
+          this.setCreateMode();
+        }
+
+        this.autoClearMessages();
+      },
+
+      // ERROR
+      error: (err) => {
+
+        console.log('Backend Error:', err);
+
+        this.errorMessage =
+          err?.error?.message ||
+          err?.error?.title ||
+          err?.message ||
+          'Operation failed!';
+
+        this.successMessage = '';
+
+        this.autoClearMessages();
+      }
+    });
   }
 
-  const payload = this.salaryForm.getRawValue();
-
-  const request$ = this.isEditMode
-    ? this.salaryService.updateSalary(payload.id, payload)
-    : this.salaryService.addSalary(payload);
-
-  request$.subscribe({
-    next: () => {
-
-      this.successMessage = this.isEditMode
-        ? 'Salary updated successfully.'
-        : 'Salary created successfully.';
-
-      this.errorMessage = '';
-
-      if (this.isEditMode) {
-        // KEEP EDIT MODE BUT CLEAR FIELDS
-        this.salaryForm.reset({
-          id: payload.id,        // keep same record
-          employeeId: payload.employeeId,
-          basicSalary: '',
-          effectiveDate: ''
-        });
-    // AFTER UPDATE → GO TO LIST
-            this.router.navigate(['/salarylist']);
-        // employee still disabled in edit mode
-        this.salaryForm.get('employeeId')?.disable();
-      }
-      else {
-        // CREATE MODE RESET
-        this.setCreateMode();
-      }
-
-      this.autoClearMessages();
-    },
-
-    error: () => {
-      this.errorMessage = 'Operation failed!';
-      this.successMessage = '';
-      this.autoClearMessages();
-    }
-  });
-}
-
-  // RESET BUTTON
+  // RESET FORM
   resetForm(): void {
+
     this.setCreateMode();
   }
 
   // AUTO CLEAR MESSAGES
   private autoClearMessages(delay: number = 3000): void {
+
     setTimeout(() => {
+
       this.successMessage = '';
       this.errorMessage = '';
+
     }, delay);
   }
 }

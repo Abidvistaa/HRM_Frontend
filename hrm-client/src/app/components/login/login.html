@@ -23,7 +23,9 @@
         required
       />
 
-      <button type="submit">Login</button>
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Login...' : 'Login' }}
+      </button>
 
       <div class="register-link">
          Admin?

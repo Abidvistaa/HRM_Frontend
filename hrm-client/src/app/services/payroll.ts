@@ -38,13 +38,6 @@ export class PayrollService {
     });
   }
 
-  // POST
-  addPayroll(obj: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/AddPayroll`, obj, {
-      headers: this.getAuthHeaders()
-    });
-  }
-
     // POST
     autoGeneratePayroll(obj: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/AutoGeneratePayrollMonthly`, obj, {

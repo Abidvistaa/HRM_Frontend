@@ -32,9 +32,9 @@ export class EmployeeListComponent implements OnInit {
 
   loadEmployees(): void {
     this.employeeService.getEmployees().subscribe({
-      next: (data) => {
-        this.employees = data;
-        this.filteredEmployees = data;
+      next: (res) => {
+        this.employees = res.data;
+        this.filteredEmployees = res.data;
       },
       error: (err) => console.error(err)
     });
@@ -73,27 +73,54 @@ export class EmployeeListComponent implements OnInit {
     }
   }
 
+    get pageInfo(): string {
+    const total = this.filteredEmployees.length;
+
+    if (total === 0) {
+      return 'No entries';
+    }
+
+    const start = (this.currentPage - 1) * this.pageSize + 1;
+
+    let end = this.currentPage * this.pageSize;
+
+    if (end > total) {
+      end = total;
+    }
+
+    return `Showing ${start} to ${end} of ${total} entries`;
+  }
+
+
   // EDIT
   editEmployee(id: number): void {
     this.router.navigate(['/employee/edit', id]);
   }
 
   // DELETE
-  deleteEmployee(id: number): void {
+deleteEmployee(id: number): void {
 
   const confirmDelete = window.confirm(
     'Are you sure you want to delete this employee?'
   );
 
-  if (!confirmDelete) {
-    return; // stop deletion
-  }
+  if (!confirmDelete) return;
 
   this.employeeService.deleteEmployee(id).subscribe({
     next: () => {
       this.loadEmployees();
     },
-    error: (err) => console.error(err)
+
+    error: (err) => {
+
+      const message =
+        err?.error?.message ||   // backend custom message
+        err?.error?.title ||
+        err?.message ||
+        'Failed to delete employee';
+
+      alert(message);
+    }
   });
 }
 }

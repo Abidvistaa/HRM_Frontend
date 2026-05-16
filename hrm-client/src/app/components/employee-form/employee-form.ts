@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms';
+
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
+
 import { EmployeeService } from '../../services/employee';
 
 @Component({
@@ -14,6 +21,7 @@ import { EmployeeService } from '../../services/employee';
 export class EmployeeFormComponent implements OnInit {
 
   employeeForm!: FormGroup;
+
   isEditMode = false;
 
   successMessage = '';
@@ -27,6 +35,7 @@ export class EmployeeFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
     this.initForm();
 
     const id = this.route.snapshot.paramMap.get('id');
@@ -40,6 +49,7 @@ export class EmployeeFormComponent implements OnInit {
 
   // INIT FORM
   private initForm(): void {
+
     this.employeeForm = this.fb.group({
       id: [0],
       name: ['', Validators.required],
@@ -54,11 +64,18 @@ export class EmployeeFormComponent implements OnInit {
 
   // CREATE MODE
   setCreateMode(): void {
+
     this.isEditMode = false;
 
     this.employeeForm.reset({
       id: 0,
-      employmentStatus: 'Active'
+      name: '',
+      email: '',
+      phone: '',
+      department: '',
+      accountNumber: '',
+      employmentStatus: 'Active',
+      hireDate: ''
     });
 
     this.employeeForm.get('hireDate')?.enable();
@@ -66,8 +83,10 @@ export class EmployeeFormComponent implements OnInit {
 
   // LOAD EMPLOYEE
   loadEmployee(id: number): void {
+
     this.employeeService.getEmployee(id).subscribe({
-      next: (emp) => {
+
+      next: (emp: any) => {
 
         this.isEditMode = true;
 
@@ -86,11 +105,17 @@ export class EmployeeFormComponent implements OnInit {
           hireDate: formattedDate
         });
 
-        // hide hireDate in edit mode
+        // Disable hire date in edit mode
         this.employeeForm.get('hireDate')?.disable();
       },
-      error: () => {
-        this.errorMessage = 'Failed to load employee';
+
+      error: (err) => {
+
+        this.errorMessage =
+          err?.error?.message ||
+          err?.error?.title ||
+          'Failed to load employee';
+
         this.autoClearMessages();
       }
     });
@@ -100,13 +125,14 @@ export class EmployeeFormComponent implements OnInit {
   onSubmit(): void {
 
     if (this.employeeForm.invalid) {
+
       this.employeeForm.markAllAsTouched();
       return;
     }
 
     const payload = this.employeeForm.getRawValue();
 
-    // DO NOT SEND hireDate in edit mode
+    // DO NOT SEND HIREDATE IN EDIT MODE
     if (this.isEditMode) {
       delete payload.hireDate;
     }
@@ -116,27 +142,44 @@ export class EmployeeFormComponent implements OnInit {
       : this.employeeService.addEmployee(payload);
 
     request$.subscribe({
-      next: () => {
 
-        this.successMessage = this.isEditMode
-          ? 'Employee updated successfully!'
-          : 'Employee created successfully!';
+      // SUCCESS
+      next: (res: any) => {
+
+        this.successMessage =
+          res?.message ||
+          (this.isEditMode
+            ? 'Employee updated successfully'
+            : 'Employee created successfully');
 
         this.errorMessage = '';
 
-        // RESET FORM AFTER SUCCESS
-        this.employeeForm.reset({
-          id: 0,
-          name: '',
-          email: '',
-          phone: '',
-          department: '',
-          accountNumber: '',
-          employmentStatus: 'Active',
-          hireDate: ''
-        });
+        this.autoClearMessages();
 
+        // UPDATE MODE → NAVIGATE TO LIST
+        if (this.isEditMode) {
+
+          this.router.navigate(['/employeelist']);
+          return;
+        }
+
+        // CREATE MODE → RESET FORM
         this.setCreateMode();
+      },
+
+      // ERROR
+      error: (err) => {
+
+        console.log('Backend Error:', err);
+
+        this.errorMessage =
+          err?.error?.message ||
+          err?.error?.title ||
+          err?.message ||
+          'Something went wrong';
+
+        this.successMessage = '';
+
         this.autoClearMessages();
       }
     });
@@ -144,14 +187,18 @@ export class EmployeeFormComponent implements OnInit {
 
   // RESET FORM
   resetForm(): void {
+
     this.setCreateMode();
   }
 
-  //AUTO CLEAR MESSAGES (SUCCESS + ERROR)
+  // AUTO CLEAR MESSAGES
   private autoClearMessages(delay: number = 3000): void {
+
     setTimeout(() => {
+
       this.successMessage = '';
       this.errorMessage = '';
+
     }, delay);
   }
 }

@@ -27,13 +27,13 @@
   padding: 8px 12px;
   width: 150px;
   border: 1px solid #ccc;
-  border-radius: 6px;
   outline: none;
 }
 
 .header-controls input:focus {
   border-color: #0d6efd;
   box-shadow: 0 0 5px rgba(13,110,253,0.3);
+  border-radius: 8px;
 }
 
 /* PAGE SIZE */
@@ -50,18 +50,21 @@
   cursor: pointer;
 }
 
-/* TABLE */
+/* TABLE WRAPPER (IMPORTANT FIX) */
 .table-container {
   width: 100%;
   margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
+/* TABLE */
 table {
   width: 100%;
   border-collapse: collapse;
   background: #fff;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  margin-top: 5px;
+  margin-top: 3px;
 }
 
 /* HEADER */
@@ -70,6 +73,7 @@ thead {
   color: white;
 }
 
+/* CELLS */
 th, td {
   padding: 12px;
   text-align: left;
@@ -83,6 +87,14 @@ tbody tr:nth-child(even) {
 
 tbody tr:hover {
   background: #eef2ff;
+}
+
+/* TABLE INFO */
+.table-info {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  padding-left: 12px;
 }
 
 /* BUTTON */

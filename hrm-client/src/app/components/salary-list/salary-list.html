@@ -1,12 +1,9 @@
 <div class="page-header">
 
-  <!-- LEFT TITLE -->
   <h2>Salary List</h2>
 
-  <!-- RIGHT CONTROLS -->
   <div class="header-controls">
 
-    <!-- SEARCH -->
     <input
       type="text"
       placeholder="Search salary..."
@@ -14,7 +11,6 @@
       (input)="onSearch()"
     />
 
-    <!-- PAGE SIZE -->
     <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
       <option *ngFor="let size of pageSizeOptions" [value]="size">
         {{ size }}
@@ -46,25 +42,22 @@
       <td>{{ salary.effectiveDate | date:'dd MMM yyyy' }}</td>
 
       <td>
-        <button class="edit" (click)="editSalary(salary.id)">
-          Edit
-        </button>
-
-        <button class="delete" (click)="deleteSalary(salary.id)">
-          Delete
-        </button>
+        <button class="edit" (click)="editSalary(salary.id)">Edit</button>
+        <button class="delete" (click)="deleteSalary(salary.id)">Delete</button>
       </td>
     </tr>
   </tbody>
 </table>
 
+<!-- PAGE INFO -->
+<div class="table-info">
+  {{ pageInfo }}
+</div>
+
 <!-- PAGINATION -->
 <div class="pagination">
 
-  <button
-    (click)="prevPage()"
-    [disabled]="currentPage === 1"
-  >
+  <button (click)="prevPage()" [disabled]="currentPage === 1">
     Prev
   </button>
 

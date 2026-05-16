@@ -30,8 +30,8 @@
     </div>
 
     <div class="submenu">
-      <a routerLink="/employee/create" routerLinkActive="active-link" *ngIf="isHR()" >Create Employee</a>
-      <a routerLink="/employeelist" routerLinkActive="active-link" *ngIf="isAdmin() || isHR()" >Employee List</a>
+      <a routerLink="/employee/create" routerLinkActive="active-link"  >Create Employee</a>
+      <a routerLink="/employeelist" routerLinkActive="active-link"  >Employee List</a>
     </div>
   </div>
 
@@ -49,7 +49,7 @@
   </div>
 
   <!-- PAYROLL -->
-  <div class="menu-group has-dropdown" *ngIf="isHR() || isFinance()">
+  <div class="menu-group has-dropdown" *ngIf="isHR()">
     <div class="group-title">
       <span class="material-icons">account_balance_wallet</span>
       Payroll

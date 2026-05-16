@@ -58,7 +58,12 @@ tbody tr:nth-child(even) {
 tbody tr:hover {
   background: #eef2ff;
 }
-
+.table-info {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  padding-left: 12px;
+}
 /* BUTTONS */
 button {
   border: none;

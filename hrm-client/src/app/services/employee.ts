@@ -30,6 +30,12 @@ export class EmployeeService {
       headers: this.getAuthHeaders()
     });
   }
+    // GET All Active employees
+  getActiveEmployees(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/GetAllActiveEmployees`, {
+      headers: this.getAuthHeaders()
+    });
+  }
 
   // GET
   getEmployee(id: number): Observable<any> {

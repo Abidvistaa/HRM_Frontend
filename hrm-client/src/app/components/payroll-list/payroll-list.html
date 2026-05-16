@@ -34,6 +34,7 @@
 
     <tr>
       <th>ID</th>
+      <th>Sal Id</th>
       <th>Employee</th>
       <th>Month</th>
       <th>Year</th>
@@ -54,32 +55,19 @@
     <tr *ngFor="let payroll of pagedPayrolls">
 
       <td>{{ payroll.id }}</td>
-
+      <td>{{ payroll.salaryId }}</td>
       <td>{{ payroll.employeeName }}</td>
-
       <td>{{ payroll.payrollMonthString }}</td>
-
       <td>{{ payroll.payrollYear }}</td>
-
       <td>{{ payroll.basicSalary | number:'1.2-2' }}</td>
-
       <td>{{ payroll.bonus }}</td>
-
       <td>{{ payroll.deduction }}</td>
-
       <td>{{ payroll.tax }}</td>
-
       <td>{{ payroll.netSalary | number:'1.2-2' }}</td>
-
       <td>{{ payroll.status }}</td>
-
       <td>{{ payroll.actionDate | date:'dd MMM yyyy' }}</td>
 
       <td>
-
-        <button class="edit" (click)="editPayroll(payroll.id)">
-          Edit
-        </button>
 
         <button class="delete" (click)="deletePayroll(payroll.id)">
           Delete
@@ -92,6 +80,11 @@
   </tbody>
 
 </table>
+
+<!-- PAGE INFO -->
+<div class="table-info">
+  {{ pageInfo }}
+</div>
 
 <!-- PAGINATION -->
 <div class="pagination">

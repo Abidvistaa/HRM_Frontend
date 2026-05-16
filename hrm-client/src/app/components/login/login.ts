@@ -16,6 +16,7 @@ export class LoginComponent {
   username = '';
   password = '';
   error = '';
+  loading = false;
 
   constructor(
     private auth: AuthService,
@@ -23,11 +24,17 @@ export class LoginComponent {
   ) {}
 
   login() {
+
+  this.loading = true;
+
   this.auth.login({
     username: this.username,
-    password: this.password
+    password: this.password,
+
   }).subscribe({
     next: (res: any) => {
+
+      this.loading = false;
 
       if (res && res.success === true) {
         this.router.navigate(['/home']);
@@ -38,6 +45,7 @@ export class LoginComponent {
     },
 
     error: () => {
+     this.loading = false;
       this.error = 'Server error. Please try again.';
     }
   });

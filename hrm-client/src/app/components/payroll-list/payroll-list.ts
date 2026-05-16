@@ -29,13 +29,6 @@ export class PayrollListComponent implements OnInit {
     private router: Router
   ) {}
 
-  // ✅ Month map (DB 1–12 → name)
-  private monthNames: string[] = [
-    '',
-    'jan', 'feb', 'mar', 'apr', 'may', 'jun',
-    'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
-  ];
-
   ngOnInit(): void {
     this.loadPayrolls();
   }
@@ -43,9 +36,9 @@ export class PayrollListComponent implements OnInit {
   // LOAD DATA
   loadPayrolls(): void {
     this.payrollService.getPayrolls().subscribe({
-      next: (data) => {
-        this.payrolls = data;
-        this.filteredPayrolls = data;
+      next: (res) => {
+        this.payrolls = res.data;
+        this.filteredPayrolls = res.data;
       },
       error: (err) => console.error(err)
     });
@@ -72,16 +65,6 @@ onSearch(): void {
   this.currentPage = 1;
 }
 
-  // OPTIONAL: for UI display (Jan, Feb)
-  getMonthName(month: number): string {
-    const names = [
-      '',
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-    return names[month] || '';
-  }
-
   // PAGINATION
   get pagedPayrolls() {
     const start = (this.currentPage - 1) * this.pageSize;
@@ -104,9 +87,22 @@ onSearch(): void {
     }
   }
 
-  // EDIT
-  editPayroll(id: number): void {
-    this.router.navigate(['/payroll/edit', id]);
+    get pageInfo(): string {
+    const total = this.filteredPayrolls.length;
+
+    if (total === 0) {
+      return 'No entries';
+    }
+
+    const start = (this.currentPage - 1) * this.pageSize + 1;
+
+    let end = this.currentPage * this.pageSize;
+
+    if (end > total) {
+      end = total;
+    }
+
+    return `Showing ${start} to ${end} of ${total} entries`;
   }
 
   // DELETE

@@ -32,9 +32,9 @@ export class UserListComponent implements OnInit {
   // LOAD USERS
   loadUsers(): void {
     this.userService.getUsers().subscribe({
-      next: (data) => {
-        this.users = data;
-        this.filteredUsers = data;
+      next: (res) => {
+        this.users = res.data;
+        this.filteredUsers = res.data;
       },
       error: (err) => {
         console.error('Error loading users:', err);
@@ -75,6 +75,24 @@ export class UserListComponent implements OnInit {
     if (this.currentPage > 1) {
       this.currentPage--;
     }
+  }
+
+    get pageInfo(): string {
+    const total = this.filteredUsers.length;
+
+    if (total === 0) {
+      return 'No entries';
+    }
+
+    const start = (this.currentPage - 1) * this.pageSize + 1;
+
+    let end = this.currentPage * this.pageSize;
+
+    if (end > total) {
+      end = total;
+    }
+
+    return `Showing ${start} to ${end} of ${total} entries`;
   }
 
   // DELETE USER
