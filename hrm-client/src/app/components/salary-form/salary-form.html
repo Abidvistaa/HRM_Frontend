@@ -14,8 +14,8 @@
       <label>Employee</label>
 
       <small class="text-danger"
-        *ngIf="salaryForm.get('employeeId')?.invalid &&
-               salaryForm.get('employeeId')?.touched">
+             *ngIf="salaryForm.get('employeeId')?.invalid &&
+                    salaryForm.get('employeeId')?.touched">
 
         Required
 
@@ -46,8 +46,8 @@
       <label>Basic Salary</label>
 
       <small class="text-danger"
-        *ngIf="salaryForm.get('basicSalary')?.invalid &&
-               salaryForm.get('basicSalary')?.touched">
+             *ngIf="salaryForm.get('basicSalary')?.invalid &&
+                    salaryForm.get('basicSalary')?.touched">
 
         Required
 
@@ -59,22 +59,23 @@
 
     </div>
 
-    <!-- EFFECTIVE DATE -->
+    <!-- EFFECTIVE MONTH -->
     <div class="form-group">
 
-      <label>Effective Date</label>
+      <label>Effective Month</label>
 
       <small class="text-danger"
-        *ngIf="salaryForm.get('effectiveDate')?.invalid &&
-               salaryForm.get('effectiveDate')?.touched">
+             *ngIf="salaryForm.get('effectiveDate')?.invalid &&
+                    salaryForm.get('effectiveDate')?.touched">
 
         Required
 
       </small>
 
-      <input type="date"
+      <input type="month"
              class="form-control"
-             formControlName="effectiveDate">
+             formControlName="effectiveDate"
+             [min]="!isEditMode ? currentMonth : null">
 
     </div>
 

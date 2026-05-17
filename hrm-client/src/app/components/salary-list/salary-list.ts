@@ -19,7 +19,7 @@ export class SalaryListComponent implements OnInit {
 
   searchText = '';
   currentPage = 1;
-  pageSize = 5;
+  pageSize = 20;
 
   pageSizeOptions = [5, 10, 20, 50];
 

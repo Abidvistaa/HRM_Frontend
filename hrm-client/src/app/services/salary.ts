@@ -41,7 +41,7 @@ export class SalaryService {
 
     // GET UPDATED SALARY
   getUpdatedSalaries(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/GetUpdatedSalaryList`, {
+    return this.http.get(`${this.apiUrl}/GetAllSalaries`, {
       headers: this.getAuthHeaders()
     });
   }

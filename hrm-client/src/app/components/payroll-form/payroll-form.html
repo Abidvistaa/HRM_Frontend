@@ -4,41 +4,32 @@
     <h2>Generate Monthly Payroll</h2>
   </div>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid">
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    class="form-grid">
 
-    <!-- MONTH -->
+    <!-- PAYROLL MONTH -->
     <div class="form-group">
 
       <label>Payroll Month</label>
 
-      <select class="form-control" formControlName="payrollMonth">
+      <small
+        class="text-danger"
+        *ngIf="
+          form.get('payrollDate')?.invalid &&
+          form.get('payrollDate')?.touched
+        ">
 
-        <option [ngValue]="1">January</option>
-        <option [ngValue]="2">February</option>
-        <option [ngValue]="3">March</option>
-        <option [ngValue]="4">April</option>
-        <option [ngValue]="5">May</option>
-        <option [ngValue]="6">June</option>
-        <option [ngValue]="7">July</option>
-        <option [ngValue]="8">August</option>
-        <option [ngValue]="9">September</option>
-        <option [ngValue]="10">October</option>
-        <option [ngValue]="11">November</option>
-        <option [ngValue]="12">December</option>
+        Required
 
-      </select>
-
-    </div>
-
-    <!-- YEAR -->
-    <div class="form-group">
-
-      <label>Payroll Year</label>
+      </small>
 
       <input
-        type="number"
+        type="month"
         class="form-control"
-        formControlName="payrollYear">
+        formControlName="payrollDate"
+        [min]="currentMonth">
 
     </div>
 
@@ -67,7 +58,7 @@
     </div>
 
     <!-- BUTTON -->
-    <div class="form-group">
+    <div class="form-group full-width">
 
       <div class="btn-wrapper">
 
@@ -76,7 +67,9 @@
           class="btn primary"
           [disabled]="loading">
 
-          {{ loading ? 'Generating...' : 'Generate Payroll' }}
+          {{ loading
+              ? 'Generating...'
+              : 'Generate Payroll' }}
 
         </button>
 
@@ -85,12 +78,21 @@
     </div>
 
     <!-- SUCCESS -->
-    <div class="alert success" *ngIf="successMessage">
+    <div
+      class="alert success full-width"
+      *ngIf="successMessage">
+
       {{ successMessage }}
+
     </div>
+
     <!-- ERROR -->
-    <div class="alert error" *ngIf="errorMessage">
+    <div
+      class="alert error full-width"
+      *ngIf="errorMessage">
+
       {{ errorMessage }}
+
     </div>
 
   </form>

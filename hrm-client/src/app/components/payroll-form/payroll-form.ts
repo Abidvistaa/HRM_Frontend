@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
+
 import {
   FormBuilder,
   FormGroup,
@@ -7,22 +9,31 @@ import {
   Validators
 } from '@angular/forms';
 
-import { PayrollService } from '../../services/payroll';
+import { PayrollService }
+from '../../services/payroll';
 
 @Component({
   selector: 'app-payroll-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './payroll-form.html',
   styleUrl: './payroll-form.css'
 })
-export class PayrollFormComponent implements OnInit {
+export class PayrollFormComponent
+implements OnInit {
 
   form!: FormGroup;
 
   successMessage = '';
   errorMessage = '';
+
   loading = false;
+
+  // CURRENT MONTH
+  currentMonth = '';
 
   constructor(
     private fb: FormBuilder,
@@ -31,80 +42,134 @@ export class PayrollFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const now = new Date();
+    const today = new Date();
+
+    const year =
+      today.getFullYear();
+
+    const month = String(
+      today.getMonth() + 1
+    ).padStart(2, '0');
+
+    // YYYY-MM
+    this.currentMonth =
+      `${year}-${month}`;
 
     this.form = this.fb.group({
 
-      // current month selected
-      payrollMonth: [
-        now.getMonth() + 1,
+      // DEFAULT CURRENT MONTH
+      payrollDate: [
+        this.currentMonth,
         Validators.required
       ],
 
-      // current year auto-filled
-      payrollYear: [
-        now.getFullYear(),
-        Validators.required
-      ],
-
-      // default 0
       bonus: [0],
 
-      // default 0
       deduction: [0]
 
     });
   }
 
+  // SUBMIT
   onSubmit(): void {
 
     if (this.form.invalid) {
+
       this.form.markAllAsTouched();
+
       return;
     }
 
     this.loading = true;
+
     this.successMessage = '';
+
     this.errorMessage = '';
 
-    const payload = this.form.value;
+    const formValue =
+      this.form.getRawValue();
 
-    console.log('Payroll Payload:', payload);
+    // payrollDate = "2026-05"
+    const parts =
+      formValue.payrollDate.split('-');
 
-    this.payrollService.autoGeneratePayroll(payload).subscribe({
+    const payload = {
 
-    next: (res: any) => {
+      payrollYear:
+        Number(parts[0]),
 
-      this.loading = false;
+      payrollMonth:
+        Number(parts[1]),
 
-      if (res?.success === false) {
+      bonus:
+        formValue.bonus,
 
-        this.errorMessage =
-          res?.message || 'No payroll generated';
+      deduction:
+        formValue.deduction
+    };
 
-        this.successMessage = '';
+    console.log(
+      'Payroll Payload:',
+      payload
+    );
 
-      } else {
+    this.payrollService
+      .autoGeneratePayroll(payload)
+      .subscribe({
 
-        this.successMessage =
-          res?.message || 'Payroll generated successfully';
-
-        this.errorMessage = '';
-      }
-
-      setTimeout(() => {
-        this.successMessage = '';
-        this.errorMessage = '';
-      }, 3000);
-    },
-      error: (err) => {
-
-        this.errorMessage =
-          err?.error?.message || 'Failed to generate payroll';
+      // SUCCESS
+      next: (res: any) => {
 
         this.loading = false;
 
-        setTimeout(() => this.errorMessage = '', 3000);
+        if (
+          res?.success === false
+        ) {
+
+          this.errorMessage =
+
+            res?.message ||
+
+            'No payroll generated';
+
+          this.successMessage = '';
+
+        } else {
+
+          this.successMessage =
+
+            res?.message ||
+
+            'Payroll generated successfully';
+
+          this.errorMessage = '';
+        }
+
+        setTimeout(() => {
+
+          this.successMessage = '';
+
+          this.errorMessage = '';
+
+        }, 3000);
+      },
+
+      // ERROR
+      error: (err) => {
+
+        this.loading = false;
+
+        this.errorMessage =
+
+          err?.error?.message ||
+
+          'Failed to generate payroll';
+
+        setTimeout(() => {
+
+          this.errorMessage = '';
+
+        }, 3000);
       }
     });
   }
