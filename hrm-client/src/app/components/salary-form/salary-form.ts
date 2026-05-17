@@ -25,7 +25,6 @@ export class SalaryFormComponent implements OnInit {
   successMessage = '';
   errorMessage = '';
 
-  // CURRENT MONTH
   currentMonth = '';
 
   constructor(
@@ -38,14 +37,12 @@ export class SalaryFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // SET CURRENT MONTH
+    // CURRENT MONTH (YYYY-MM)
     const today = new Date();
 
     const year = today.getFullYear();
 
-    const month = String(
-      today.getMonth() + 1
-    ).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
 
     this.currentMonth = `${year}-${month}`;
 
@@ -56,11 +53,8 @@ export class SalaryFormComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
-
       this.loadSalary(+id);
-
     } else {
-
       this.setCreateMode();
     }
   }
@@ -72,32 +66,20 @@ export class SalaryFormComponent implements OnInit {
 
       id: [0],
 
-      employeeId: [
-        null,
-        Validators.required
-      ],
+      employeeId: [null, Validators.required],
 
-      basicSalary: [
-        '',
-        Validators.required
-      ],
+      basicSalary: ['', Validators.required],
 
-      effectiveDate: [
-        '',
-        Validators.required
-      ]
+      effectiveDate: ['', Validators.required]
     });
   }
 
-  // LOAD ACTIVE EMPLOYEES
+  // LOAD EMPLOYEES
   loadEmployees(): void {
 
-    this.employeeService
-      .getActiveEmployees()
-      .subscribe({
+    this.employeeService.getActiveEmployees().subscribe({
 
       next: (res: any) => {
-
         this.employees = res.data;
       },
 
@@ -112,12 +94,10 @@ export class SalaryFormComponent implements OnInit {
     });
   }
 
-  // LOAD SALARY FOR EDIT
+  // LOAD SALARY (EDIT)
   loadSalary(id: number): void {
 
-    this.salaryService
-      .getSalary(id)
-      .subscribe({
+    this.salaryService.getSalary(id).subscribe({
 
       next: (res: any) => {
 
@@ -126,25 +106,17 @@ export class SalaryFormComponent implements OnInit {
         this.isEditMode = true;
 
         const formattedMonth =
-          this.formatDateForInput(
-            salary.effectiveDate
-          );
+          this.formatDateForInput(salary.effectiveDate);
 
         this.salaryForm.patchValue({
 
           id: salary.id,
-
           employeeId: salary.employeeId,
-
           basicSalary: salary.basicSalary,
-
           effectiveDate: formattedMonth
         });
 
-        // DISABLE EMPLOYEE IN EDIT MODE
-        this.salaryForm
-          .get('employeeId')
-          ?.disable();
+        this.salaryForm.get('employeeId')?.disable();
       },
 
       error: (err) => {
@@ -158,56 +130,42 @@ export class SalaryFormComponent implements OnInit {
     });
   }
 
-  // FORMAT DATE FOR MONTH INPUT
-  private formatDateForInput(
-    dateValue: any
-  ): string {
+  // FORMAT YYYY-MM
+  private formatDateForInput(dateValue: any): string {
 
     if (!dateValue) return '';
 
-    // STRING DATE
     if (
       typeof dateValue === 'string' &&
       dateValue.length >= 7
     ) {
-
       return dateValue.substring(0, 7);
     }
 
-    // DATE OBJECT
     const date = new Date(dateValue);
 
     const year = date.getFullYear();
 
-    const month = String(
-      date.getMonth() + 1
-    ).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
 
     return `${year}-${month}`;
   }
 
   // CREATE MODE
-// CREATE MODE
-setCreateMode(): void {
+  setCreateMode(): void {
 
-  this.isEditMode = false;
+    this.isEditMode = false;
 
-  this.salaryForm.reset({
+    this.salaryForm.reset({
 
-    id: 0,
+      id: 0,
+      employeeId: null,
+      basicSalary: '',
+      effectiveDate: this.currentMonth
+    });
 
-    employeeId: null,
-
-    basicSalary: '',
-
-    // DEFAULT CURRENT MONTH
-    effectiveDate: this.currentMonth
-  });
-
-  this.salaryForm
-    .get('employeeId')
-    ?.enable();
-}
+    this.salaryForm.get('employeeId')?.enable();
+  }
 
   // SUBMIT
   onSubmit(): void {
@@ -219,26 +177,17 @@ setCreateMode(): void {
       return;
     }
 
-    const payload =
-      this.salaryForm.getRawValue();
+    const payload = this.salaryForm.getRawValue();
 
-    // CONVERT YYYY-MM → YYYY-MM-01
+    // convert YYYY-MM → YYYY-MM-01
     if (payload.effectiveDate) {
-
       payload.effectiveDate =
         payload.effectiveDate + '-01';
     }
 
     const request$ = this.isEditMode
-
-      ? this.salaryService
-          .updateSalary(
-            payload.id,
-            payload
-          )
-
-      : this.salaryService
-          .addSalary(payload);
+      ? this.salaryService.updateSalary(payload.id, payload)
+      : this.salaryService.addSalary(payload);
 
     request$.subscribe({
 
@@ -247,47 +196,32 @@ setCreateMode(): void {
 
         this.successMessage =
           res?.message ||
-
           (this.isEditMode
-
             ? 'Salary updated successfully.'
-
             : 'Salary created successfully.');
 
         this.errorMessage = '';
 
-        // EDIT → GO TO LIST
         if (this.isEditMode) {
 
-          this.router.navigate([
-            '/salarylist'
-          ]);
+          this.router.navigate(['/salarylist']);
 
         } else {
 
-          // CREATE → RESET FORM
           this.setCreateMode();
         }
 
         this.autoClearMessages();
       },
 
-      // ERROR
+      // ERROR (IMPORTANT FIX)
       error: (err) => {
 
-        console.log(
-          'Backend Error:',
-          err
-        );
+        console.log('Backend Error:', err);
 
         this.errorMessage =
-
-          err?.error?.message ||
-
-          err?.error?.title ||
-
+          err?.error?.message ||  
           err?.message ||
-
           'Operation failed!';
 
         this.successMessage = '';
@@ -297,21 +231,17 @@ setCreateMode(): void {
     });
   }
 
-  // RESET FORM
+  // RESET
   resetForm(): void {
-
     this.setCreateMode();
   }
 
-  // AUTO CLEAR MESSAGES
-  private autoClearMessages(
-    delay: number = 3000
-  ): void {
+  // AUTO CLEAR
+  private autoClearMessages(delay: number = 3000): void {
 
     setTimeout(() => {
 
       this.successMessage = '';
-
       this.errorMessage = '';
 
     }, delay);
