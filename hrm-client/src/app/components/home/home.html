@@ -8,10 +8,14 @@
 
     <div class="actions">
 
+      <button  *ngIf="isAdmin()" routerLink="/register" class="btn">
+        Create User
+      </button>
+
       <button  *ngIf="isAdmin()" routerLink="/userlist" class="btn">
         Use List
       </button>
-      
+
       <button  *ngIf="isHR()" routerLink="/payroll/create" class="btn">
         Generate Payroll
       </button>

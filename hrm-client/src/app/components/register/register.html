@@ -46,7 +46,7 @@
         <!-- PASSWORD -->
         <div class="mb-3 form-group">
             <label>Password</label>
-            
+
             <small class="text-danger"
                 *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
                 Required
@@ -68,15 +68,7 @@
             {{ successMessage }}
         </div>
 
-        <!-- ACTIONS -->
-        <div class="admin-actions mt-4">
 
-            <!-- LOGIN -->
-            <a (click)="goToLoginPage()" class="action-link left-link">
-                ← Login Page
-            </a>
-
-        </div>
 
     </form>
 

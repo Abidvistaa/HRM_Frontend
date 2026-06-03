@@ -70,11 +70,15 @@ export class SalaryFormComponent implements OnInit {
 
       basicSalary: ['', Validators.required],
 
+      bonus: [0],
+      
+      deduction: [0],
+
       effectiveDate: ['', Validators.required]
     });
   }
 
-  // LOAD EMPLOYEES
+  // LOAD
   loadEmployees(): void {
 
     this.employeeService.getActiveEmployees().subscribe({
@@ -113,6 +117,8 @@ export class SalaryFormComponent implements OnInit {
           id: salary.id,
           employeeId: salary.employeeId,
           basicSalary: salary.basicSalary,
+          bonus: salary.bonus,
+          deduction: salary.deduction,
           effectiveDate: formattedMonth
         });
 
@@ -161,6 +167,8 @@ export class SalaryFormComponent implements OnInit {
       id: 0,
       employeeId: null,
       basicSalary: '',
+      bonus: 0,
+      deduction: 0,
       effectiveDate: this.currentMonth
     });
 
@@ -220,7 +228,7 @@ export class SalaryFormComponent implements OnInit {
         console.log('Backend Error:', err);
 
         this.errorMessage =
-          err?.error?.message ||  
+          err?.error?.message ||
           err?.message ||
           'Operation failed!';
 

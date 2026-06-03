@@ -27,11 +27,6 @@
         {{ loading ? 'Login...' : 'Login' }}
       </button>
 
-      <div class="register-link">
-         Admin?
-        <a (click)="goToRegister()">Create User</a>
-      </div>
-
     </form>
 
     <p class="error" *ngIf="error">{{ error }}</p>

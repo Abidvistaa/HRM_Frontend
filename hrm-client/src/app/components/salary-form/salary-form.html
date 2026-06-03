@@ -58,6 +58,43 @@
              formControlName="basicSalary">
 
     </div>
+    <!-- BONUS -->
+    <div class="form-group">
+
+      <label>BONUS</label>
+
+      <small class="text-danger"
+             *ngIf="salaryForm.get('bonus')?.invalid &&
+                    salaryForm.get('bonus')?.touched">
+
+        Required
+
+      </small>
+
+      <input type="number"
+             class="form-control"
+             formControlName="bonus">
+
+    </div>
+
+    <!-- Deduction -->
+    <div class="form-group">
+
+      <label>DEDUCTION</label>
+
+      <small class="text-danger"
+             *ngIf="salaryForm.get('deduction')?.invalid &&
+                    salaryForm.get('deduction')?.touched">
+
+        Required
+
+      </small>
+
+      <input type="number"
+             class="form-control"
+             formControlName="deduction">
+
+    </div>
 
     <!-- EFFECTIVE MONTH -->
     <div class="form-group">
