@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 
 import { PayrollService } from '../../services/payroll';
 
+
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
 @Component({
   selector: 'app-payroll-list',
   standalone: true,
@@ -119,4 +123,148 @@ onSearch(): void {
       error: (err) => console.error(err)
     });
   }
+
+//js pdf
+exportPdf(): void {
+
+  const doc = new jsPDF({
+    orientation: 'landscape'
+  });
+
+  // Title
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  doc.text('Payroll List', 14, 15);
+
+  // Table Data
+  const body = this.filteredPayrolls.map(p => [
+    p.id,
+    p.salaryId,
+    p.employeeName,
+    p.payrollMonthString,
+    p.payrollYear,
+    Number(p.basicSalary).toFixed(2),
+    Number(p.bonus).toFixed(2),
+    Number(p.deduction).toFixed(2),
+    p.tax,
+    Number(p.netSalary).toFixed(2),
+    p.status,
+    new Date(p.actionDate).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    })
+  ]);
+
+  autoTable(doc, {
+
+    startY: 25,
+
+    head: [[
+      'ID',
+      'Salary ID',
+      'Employee',
+      'Month',
+      'Year',
+      'Basic Salary',
+      'Bonus',
+      'Deduction',
+      'Tax (%)',
+      'Net Salary',
+      'Status',
+      'Action Date'
+    ]],
+
+    body,
+
+    theme: 'grid',
+
+    styles: {
+      textColor: [0, 0, 0],
+      font: 'helvetica',
+      fontSize: 8,
+      halign: 'center',
+      valign: 'middle',
+      cellPadding: 2,
+      lineWidth: 0.2
+    },
+
+    headStyles: {
+      fillColor: [224, 242, 254],
+      textColor: [0, 0, 0],
+      fontStyle: 'bold',
+      lineWidth: 0.2,
+      halign: 'center',
+      valign: 'middle'
+    },
+
+    bodyStyles: {
+      fillColor: [255, 255, 255]
+    },
+
+    alternateRowStyles: {
+      fillColor: [240, 240, 240]
+    }
+
+  });
+
+  // Generated date (bottom-right)
+  const table = (doc as any).lastAutoTable;
+  const pageWidth = doc.internal.pageSize.getWidth();
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+
+  doc.text(
+    `Generated: ${new Date().toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    })}`,
+    pageWidth - 14,
+    table.finalY + 10,
+    { align: 'right' }
+  );
+
+  doc.save('Payroll_List.pdf');
+}
+
+downloadPdf(): void {
+
+  this.payrollService.exportPayrollPdf().subscribe({
+    next: (response) => {
+
+      const blob = response.body!;
+
+      const contentDisposition = response.headers.get('content-disposition');
+
+let fileName = 'Payroll_List.pdf';
+
+if (contentDisposition) {
+  const utf8Match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
+
+  if (utf8Match) {
+    fileName = decodeURIComponent(utf8Match[1]);
+  } else {
+    const fileNameMatch = contentDisposition.match(/filename="?([^";]+)"?/i);
+    if (fileNameMatch) {
+      fileName = fileNameMatch[1];
+    }
+  }
+}
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+
+      link.click();
+
+      window.URL.revokeObjectURL(url);
+    },
+    error: err => console.error(err)
+  });
+
+}
 }

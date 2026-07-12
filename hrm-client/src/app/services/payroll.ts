@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth';
 
+import { HttpResponse } from '@angular/common/http';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -58,4 +60,15 @@ export class PayrollService {
     });
   }
 
+  // EXPORT PDF
+exportPayrollPdf(): Observable<HttpResponse<Blob>> {
+  return this.http.get(
+    `${this.apiUrl}/ExportPayrollPdf`,
+    {
+      headers: this.getAuthHeaders(),
+      responseType: 'blob',
+      observe: 'response'
+    }
+  );
+}
 }
