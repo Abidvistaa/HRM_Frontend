@@ -71,4 +71,17 @@ exportPayrollPdf(): Observable<HttpResponse<Blob>> {
     }
   );
 }
+
+// EXPORT EXCEL
+exportPayrollExcel(): Observable<HttpResponse<Blob>> {
+  return this.http.get(
+    `${this.apiUrl}/ExportPayrollExcel`,
+    {
+      headers: this.getAuthHeaders(),
+      responseType: 'blob',
+      observe: 'response'
+    }
+  );
+}
+
 }

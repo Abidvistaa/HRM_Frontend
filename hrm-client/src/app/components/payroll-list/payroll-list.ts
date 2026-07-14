@@ -267,4 +267,49 @@ if (contentDisposition) {
   });
 
 }
+
+downloadExcel(): void {
+
+  this.payrollService.exportPayrollExcel().subscribe({
+    next: (response) => {
+
+      const blob = response.body!;
+
+      const contentDisposition = response.headers.get('content-disposition');
+
+      let fileName = 'Payroll_List.xlsx';
+
+      if (contentDisposition) {
+
+        const utf8Match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
+
+        if (utf8Match) {
+          fileName = decodeURIComponent(utf8Match[1]);
+        }
+        else {
+
+          const fileNameMatch = contentDisposition.match(/filename="?([^";]+)"?/i);
+
+          if (fileNameMatch) {
+            fileName = fileNameMatch[1];
+          }
+        }
+      }
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+
+      link.href = url;
+      link.download = fileName;
+
+      link.click();
+
+      window.URL.revokeObjectURL(url);
+    },
+    error: err => console.error(err)
+  });
+
+}
+
 }
