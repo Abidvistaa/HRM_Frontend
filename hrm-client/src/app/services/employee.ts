@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth';
 
+import { HttpResponse } from '@angular/common/http';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -64,4 +66,25 @@ export class EmployeeService {
     });
   }
 
+// Barcode
+getEmployeeBarcode(id: number): Observable<Blob> {
+  return this.http.get(
+    `${this.apiUrl}/GetEmployeeBarcode/${id}`,
+    {
+      headers: this.getAuthHeaders(),
+      responseType: 'blob'
+    }
+  );
 }
+downloadEmployeeBarcode(id: number) {
+  return this.http.get(
+    `${this.apiUrl}/GetEmployeeBarcode/${id}`,
+    {
+      headers: this.getAuthHeaders(),
+      observe: 'response',
+      responseType: 'blob'
+    }
+  );
+}
+}
+

@@ -103,6 +103,8 @@ button.delete {
   background: #ccc;
 }
 
+
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .page-header {

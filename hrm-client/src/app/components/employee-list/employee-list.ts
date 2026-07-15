@@ -123,4 +123,82 @@ deleteEmployee(id: number): void {
     }
   });
 }
+
+selectedEmployee: any = {};
+
+barcodeUrl = '';
+
+viewEmployeeCard(emp: any): void {
+
+  // Save selected employee
+  this.selectedEmployee = emp;
+
+  this.employeeService.getEmployeeBarcode(emp.id).subscribe({
+
+    next: (blob: Blob) => {
+
+      if (this.barcodeUrl) {
+        URL.revokeObjectURL(this.barcodeUrl);
+      }
+
+      this.barcodeUrl = URL.createObjectURL(blob);
+
+    },
+
+    error: err => console.error(err)
+
+  });
+
+}
+downloadBarcode(id: number): void {
+
+  this.employeeService.downloadEmployeeBarcode(id).subscribe({
+
+    next: (response) => {
+
+      const blob = response.body!;
+
+      const contentDisposition =
+        response.headers.get('content-disposition');
+
+      let fileName = `Employee_Barcode_${id}.png`;
+
+      if (contentDisposition) {
+
+        const utf8Match =
+          contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
+
+        if (utf8Match) {
+
+          fileName = decodeURIComponent(utf8Match[1]);
+
+        } else {
+
+          const fileNameMatch =
+            contentDisposition.match(/filename="?([^";]+)"?/i);
+
+          if (fileNameMatch) {
+            fileName = fileNameMatch[1];
+          }
+        }
+      }
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+
+      link.href = url;
+      link.download = fileName;
+
+      link.click();
+
+      window.URL.revokeObjectURL(url);
+    },
+
+    error: err => console.error(err)
+
+  });
+
+}
+
 }

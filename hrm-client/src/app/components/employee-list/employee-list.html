@@ -51,6 +51,14 @@
       <td>{{ emp.employmentStatus }}</td>
       <td>{{ emp.hireDate | date:'dd MMM yyyy' }}</td>
       <td>
+                <button
+        class="btn btn-success"
+
+          data-bs-toggle="modal"
+          data-bs-target="#barcodeModal"
+          (click)="viewEmployeeCard(emp)">
+          Barcode
+        </button>
         <button class="edit" (click)="editEmployee(emp.id)">Edit</button>
         <button class="delete" (click)="deleteEmployee(emp.id)">Delete</button>
       </td>
@@ -75,4 +83,47 @@
   >
     Next
   </button>
+</div>
+
+
+<!-- Barcode Modal -->
+<div class="modal fade" id="barcodeModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Employee Barcode</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal">
+        </button>
+      </div>
+
+      <div class="modal-body text-center">
+
+        <img
+          *ngIf="barcodeUrl"
+          [src]="barcodeUrl"
+          class="img-fluid"
+          alt="Employee Barcode">
+
+      </div>
+
+      <div class="modal-footer">
+<button
+  class="btn btn-success"
+  (click)="downloadBarcode(selectedEmployee.id)"
+  [disabled]="!selectedEmployee.id">
+  Download Barcode
+</button>
+        <button
+          class="btn btn-secondary"
+          data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
 </div>
