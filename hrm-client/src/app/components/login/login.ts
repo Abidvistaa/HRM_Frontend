@@ -24,6 +24,10 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+      if (this.auth.isLoggedIn()) {
+    this.router.navigate(['/home']);
+    return;
+  }
     // Show message if token has expired
     this.error = this.auth.getTokenExpMessage();
   }
