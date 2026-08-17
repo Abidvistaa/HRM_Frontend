@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth';
@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
-    styleUrl: './login.css',
+  styleUrl: './login.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   username = '';
   password = '';
@@ -23,35 +23,41 @@ export class LoginComponent {
     private router: Router
   ) {}
 
+  ngOnInit(): void {
+    // Show message if token has expired
+    this.error = this.auth.getTokenExpMessage();
+  }
+
   login() {
 
-  this.loading = true;
+    this.loading = true;
+    this.error = '';
 
-  this.auth.login({
-    username: this.username,
-    password: this.password,
+    this.auth.login({
+      username: this.username,
+      password: this.password
+    }).subscribe({
 
-  }).subscribe({
-    next: (res: any) => {
+      next: (res: any) => {
 
-      this.loading = false;
+        this.loading = false;
 
-      if (res && res.success === true) {
-        this.router.navigate(['/home']);
+        if (res && res.success === true) {
+          this.router.navigate(['/home']);
+        }
+        else {
+          this.error = 'Invalid username or password';
+        }
+      },
+
+      error: () => {
+        this.loading = false;
+        this.error = 'Server error. Please try again.';
       }
-      else {
-        this.error = 'Invalid username or password';
-      }
-    },
+    });
+  }
 
-    error: () => {
-     this.loading = false;
-      this.error = 'Server error. Please try again.';
-    }
-  });
-}
-
-   goToRegister() {
-     this.router.navigateByUrl('/register');
+  goToRegister() {
+    this.router.navigateByUrl('/register');
   }
 }

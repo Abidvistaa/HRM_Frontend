@@ -83,6 +83,7 @@ button.edit {
 button.delete {
   background: #dc2626;
   color: white;
+  margin-top: 4px;
 }
 
 /* PAGINATION */
