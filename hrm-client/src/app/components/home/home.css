@@ -205,15 +205,15 @@
 
   box-sizing: border-box;
 }
-
-
 .card-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-
+  justify-content: center;
+  align-items: center;
   margin-bottom: 25px;
+  text-align: center;
 }
+
+
 
 
 .card-header h3 {

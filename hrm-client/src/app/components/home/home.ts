@@ -1,7 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+
 import { AuthService } from '../../services/auth';
+import { EmployeeService } from '../../services/employee';
+
+
+// ==========================================
+// INTERFACES
+// ==========================================
 
 interface Department {
   name: string;
@@ -16,8 +23,14 @@ interface PayrollPoint {
   value: number;
 }
 
+
+
+// ==========================================
+// COMPONENT
+// ==========================================
+
 @Component({
-  selector: 'app-leftbar',
+  selector: 'app-home',
   standalone: true,
   imports: [
     CommonModule,
@@ -28,11 +41,31 @@ interface PayrollPoint {
 })
 export class HomeComponent {
 
-  constructor(private authService: AuthService) {}
+
+  // ==========================================
+  // CONSTRUCTOR
+  // ==========================================
+
+  constructor(
+    private authService: AuthService,
+    private employeeService: EmployeeService,
+    private router: Router
+  ) {}
 
 
   // ==========================================
-  // YOUR EXISTING ROLE LOGIC
+  // INITIALIZE
+  // ==========================================
+
+  ngOnInit(): void {
+
+    this.loadDepartmentData();
+
+  }
+
+
+  // ==========================================
+  // ROLE LOGIC
   // ==========================================
 
   get role(): string {
@@ -55,62 +88,104 @@ export class HomeComponent {
   }
 
 
-
   // ==========================================
   // DASHBOARD SUMMARY
   // ==========================================
 
-  totalEmployees = 142;
+  // Comes from backend
+  totalEmployees: number = 0;
 
-  activeEmployees = 128;
+  // Still hardcoded for now
+  activeEmployees: number = 128;
 
-  monthlyPayroll = 3245750;
-
+  // Still hardcoded for now
+  monthlyPayroll: number = 3245750;
 
 
   // ==========================================
   // DEPARTMENT DATA
   // ==========================================
 
-  departments: Department[] = [
+  departments: Department[] = [];
 
-    {
-      name: 'Admin',
-      count: 24,
-      percentage: 16.9,
-      color: '#3B82F6'
+
+  // ==========================================
+  // LOAD DEPARTMENT DATA FROM BACKEND
+  // ==========================================
+
+loadDepartmentData(): void {
+
+  this.employeeService.getDeptEmpsForDonut().subscribe({
+
+    next: (res) => {
+
+      // ==========================================
+      // TOTAL EMPLOYEES FROM BACKEND
+      // ==========================================
+
+      this.totalEmployees = res.data.grossTotalEmp;
+
+
+      // ==========================================
+      // DEPARTMENT DATA FROM BACKEND
+      // ==========================================
+
+      this.departments = res.data.departmentInfo.map(
+        (department: any, index: number) => {
+
+          const percentage =
+            this.totalEmployees > 0
+              ? (department.totalEmp / this.totalEmployees) * 100
+              : 0;
+
+          return {
+            name: department.dept,
+            count: department.totalEmp,
+            percentage: Number(percentage.toFixed(1)),
+            color: this.getDepartmentColor(index)
+          };
+
+        }
+      );
+
     },
 
-    {
-      name: 'HR',
-      count: 18,
-      percentage: 12.7,
-      color: '#22C55E'
-    },
+    error: (err) => {
 
-    {
-      name: 'Faculty',
-      count: 32,
-      percentage: 22.5,
-      color: '#8B5CF6'
-    },
+      console.error(
+        'Failed to load department data:',
+        err
+      );
 
-    {
-      name: 'SDD',
-      count: 40,
-      percentage: 28.2,
-      color: '#F59E0B'
-    },
-
-    {
-      name: 'Finance',
-      count: 20,
-      percentage: 14.1,
-      color: '#EC4899'
     }
 
-  ];
+  });
 
+}
+
+
+  // ==========================================
+  // DEPARTMENT COLORS
+  // ==========================================
+
+  getDepartmentColor(index: number): string {
+
+    const colors = [
+
+      '#3B82F6',
+      '#22C55E',
+      '#8B5CF6',
+      '#F59E0B',
+      '#EC4899',
+      '#06B6D4',
+      '#EF4444',
+      '#84CC16'
+
+    ];
+
+    return colors[index % colors.length];
+
+  }
 
 
   // ==========================================
@@ -119,25 +194,38 @@ export class HomeComponent {
 
   get departmentGradient(): string {
 
+    // No data yet
+    if (!this.departments.length) {
+      return 'conic-gradient(#E5E7EB 0% 100%)';
+    }
+
+
     let currentPercentage = 0;
 
     const gradients: string[] = [];
 
-    this.departments.forEach(department => {
 
-      const start = currentPercentage;
+    this.departments.forEach(
+      (department: Department) => {
 
-      currentPercentage += department.percentage;
+        const start = currentPercentage;
 
-      gradients.push(
-        `${department.color} ${start}% ${currentPercentage}%`
-      );
+        currentPercentage += department.percentage;
 
-    });
+
+        gradients.push(
+
+          `${department.color} ${start}% ${currentPercentage}%`
+
+        );
+
+      }
+    );
+
 
     return `conic-gradient(${gradients.join(', ')})`;
-  }
 
+  }
 
 
   // ==========================================
@@ -145,6 +233,7 @@ export class HomeComponent {
   // ==========================================
 
   payrollMonths = [
+
     'Sep 25',
     'Oct 25',
     'Nov 25',
@@ -157,10 +246,12 @@ export class HomeComponent {
     'Jun 26',
     'Jul 26',
     'Aug 26'
+
   ];
 
 
   payrollValues = [
+
     1800000,
     2150000,
     2500000,
@@ -173,8 +264,8 @@ export class HomeComponent {
     3250000,
     3650000,
     3245750
-  ];
 
+  ];
 
 
   // ==========================================
@@ -195,29 +286,33 @@ export class HomeComponent {
       chartWidth - (padding * 2);
 
 
-    return this.payrollValues.map((value, index) => {
+    return this.payrollValues.map(
+      (value, index) => {
 
-      const x =
-        padding +
-        (index / (this.payrollValues.length - 1))
-        * usableWidth;
-
-
-      const y =
-        chartHeight -
-        (value / maxValue) * chartHeight;
+        const x =
+          padding +
+          (index / (this.payrollValues.length - 1)) *
+          usableWidth;
 
 
-      return {
-        x,
-        y,
-        value
-      };
+        const y =
+          chartHeight -
+          (value / maxValue) *
+          chartHeight;
 
-    });
+
+        return {
+
+          x,
+          y,
+          value
+
+        };
+
+      }
+    );
 
   }
-
 
 
   // ==========================================
@@ -227,11 +322,12 @@ export class HomeComponent {
   get payrollLinePoints(): string {
 
     return this.payrollPoints
-      .map(point => `${point.x},${point.y}`)
+      .map(point =>
+        `${point.x},${point.y}`
+      )
       .join(' ');
 
   }
-
 
 
   // ==========================================
@@ -240,9 +336,13 @@ export class HomeComponent {
 
   get payrollAreaPoints(): string {
 
-    const points = this.payrollPoints
-      .map(point => `${point.x},${point.y}`)
-      .join(' ');
+    const points =
+      this.payrollPoints
+        .map(point =>
+          `${point.x},${point.y}`
+        )
+        .join(' ');
+
 
     return `10,250 ${points} 690,250`;
 

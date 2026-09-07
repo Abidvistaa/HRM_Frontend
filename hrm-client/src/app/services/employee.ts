@@ -38,7 +38,12 @@ export class EmployeeService {
       headers: this.getAuthHeaders()
     });
   }
-
+    // GET All For Donut
+  getDeptEmpsForDonut(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/GetDeptEmpsForDonut`, {
+      headers: this.getAuthHeaders()
+    });
+  }
   // GET
   getEmployee(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/GetEmployeeById/${id}`, {
