@@ -84,4 +84,10 @@ exportPayrollExcel(): Observable<HttpResponse<Blob>> {
   );
 }
 
+ // GET MonthlyAmounts
+  getMonthlyAmounts(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/GetMonthlyAmounts`, {
+      headers: this.getAuthHeaders()
+    });
+  }
 }

@@ -112,7 +112,7 @@ button.delete {
     align-items:center;
     gap:8px;
 
-    background:#dc2626;
+    background:blue;
     color:white;
 
     border:none;
@@ -128,13 +128,40 @@ button.delete {
 }
 
 .pdf-btn:hover{
-    background:#b91c1c;
+    background:#6492f6;
 }
 
 .pdf-btn i{
     font-size:18px;
 }
 
+.excel-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    background:rgb(2, 130, 2);
+    color:white;
+
+    border:none;
+    border-radius:8px;
+
+    padding:8px 14px;
+
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+
+    transition:.2s;
+}
+
+.excel-btn:hover{
+    background:#4ca867;
+}
+
+.excel-btn i{
+    font-size:18px;
+}
 /* RESPONSIVE */
 @media (max-width: 768px) {
 

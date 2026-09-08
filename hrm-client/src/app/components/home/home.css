@@ -1,5 +1,9 @@
-.dashboard-container {
 
+/* ==========================================
+   DASHBOARD CONTAINER
+========================================== */
+
+.dashboard-container {
   background: #f8fafc;
   min-height: 100%;
   box-sizing: border-box;
@@ -55,21 +59,28 @@
 
   overflow: hidden;
 
-  transition: 0.2s;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .stat-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+
+  box-shadow:
+    0 8px 25px rgba(15, 23, 42, 0.07);
 }
 
+
+/* ==========================================
+   STAT TOP
+========================================== */
 
 .stat-top {
   display: flex;
   align-items: center;
   gap: 15px;
 }
-
 
 .stat-icon {
   width: 48px;
@@ -83,20 +94,19 @@
 
   font-size: 22px;
   font-weight: bold;
-}
 
+  flex-shrink: 0;
+}
 
 .employee-icon {
   color: #2563eb;
   background: #eff6ff;
 }
 
-
 .active-icon {
   color: #16a34a;
   background: #f0fdf4;
 }
-
 
 .payroll-icon {
   color: #7c3aed;
@@ -104,27 +114,40 @@
 }
 
 
+/* ==========================================
+   STAT TEXT
+========================================== */
+
 .stat-label {
   display: block;
+
   margin-bottom: 5px;
 
   color: #64748b;
+
   font-size: 13px;
 }
-
 
 .stat-top h2 {
   margin: 0;
 
   color: #0f172a;
+
   font-size: 25px;
+
   font-weight: 700;
 }
 
 
+/* ==========================================
+   STAT FOOTER
+========================================== */
+
 .stat-footer {
   display: flex;
+
   gap: 6px;
+
   align-items: center;
 
   margin-top: 18px;
@@ -132,12 +155,11 @@
   font-size: 12px;
 }
 
-
 .positive {
   color: #16a34a;
+
   font-weight: 600;
 }
-
 
 .stat-footer > span:last-child {
   color: #94a3b8;
@@ -158,24 +180,24 @@
   height: 45px;
 
   opacity: 0.9;
-}
 
+  pointer-events: none;
+}
 
 .mini-chart svg {
   width: 100%;
   height: 100%;
-}
 
+  display: block;
+}
 
 .employee-mini {
   color: #3b82f6;
 }
 
-
 .active-mini {
   color: #22c55e;
 }
-
 
 .payroll-mini {
   color: #8b5cf6;
@@ -188,33 +210,42 @@
 
 .charts-grid {
   display: grid;
+
   grid-template-columns: 1fr 1.35fr;
+
   gap: 18px;
 
   margin-bottom: 20px;
 }
 
-
 .dashboard-card {
   background: #ffffff;
 
   border: 1px solid #e2e8f0;
+
   border-radius: 12px;
 
   padding: 22px;
 
   box-sizing: border-box;
 }
+
+
+/* ==========================================
+   CARD HEADER
+========================================== */
+
 .card-header {
   display: flex;
+
   justify-content: center;
+
   align-items: center;
+
   margin-bottom: 25px;
+
   text-align: center;
 }
-
-
-
 
 .card-header h3 {
   margin: 0;
@@ -222,9 +253,9 @@
   color: #0f172a;
 
   font-size: 17px;
+
   font-weight: 700;
 }
-
 
 .card-header p {
   margin: 5px 0 0;
@@ -232,24 +263,6 @@
   color: #94a3b8;
 
   font-size: 12px;
-}
-
-
-.card-header select {
-  min-width: 140px;
-
-  padding: 8px 12px;
-
-  border: 1px solid #e2e8f0;
-  border-radius: 7px;
-
-  background: #ffffff;
-
-  color: #475569;
-
-  font-size: 12px;
-
-  outline: none;
 }
 
 
@@ -261,12 +274,18 @@
   min-height: 315px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   gap: 45px;
 }
 
+
+/* ==========================================
+   DOUGHNUT
+========================================== */
 
 .doughnut {
   position: relative;
@@ -278,7 +297,6 @@
 
   border-radius: 50%;
 }
-
 
 .doughnut::after {
   content: "";
@@ -298,7 +316,6 @@
   border-radius: 50%;
 }
 
-
 .doughnut-center {
   position: absolute;
 
@@ -310,17 +327,19 @@
   transform: translate(-50%, -50%);
 
   display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
+  flex-direction: column;
+
+  align-items: center;
+
+  white-space: nowrap;
+}
 
 .doughnut-center strong {
   color: #0f172a;
 
   font-size: 25px;
 }
-
 
 .doughnut-center span {
   color: #94a3b8;
@@ -337,10 +356,11 @@
   width: 210px;
 }
 
-
 .department-item {
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
 
   margin-bottom: 16px;
@@ -348,34 +368,36 @@
   font-size: 12px;
 }
 
-
 .department-name {
   display: flex;
+
   align-items: center;
+
   gap: 8px;
 
   color: #475569;
 }
 
-
 .legend-dot {
   width: 9px;
   height: 9px;
 
+  flex-shrink: 0;
+
   border-radius: 50%;
 }
 
-
 .department-value {
   display: flex;
-  gap: 5px;
-}
 
+  gap: 5px;
+
+  white-space: nowrap;
+}
 
 .department-value strong {
   color: #334155;
 }
-
 
 .department-value span {
   color: #94a3b8;
@@ -389,22 +411,31 @@
 .payroll-chart {
   display: flex;
 
+  width: 100%;
+
   height: 270px;
 }
 
 
+/* ==========================================
+   Y AXIS
+========================================== */
+
 .y-axis {
-  width: 60px;
+  width: 75px;
 
   display: flex;
+
   flex-direction: column;
+
   justify-content: space-between;
 
   padding-bottom: 30px;
 
   box-sizing: border-box;
-}
 
+  flex-shrink: 0;
+}
 
 .y-axis span {
   color: #94a3b8;
@@ -414,8 +445,14 @@
   text-align: right;
 
   padding-right: 10px;
+
+  white-space: nowrap;
 }
 
+
+/* ==========================================
+   CHART AREA
+========================================== */
 
 .chart-area {
   position: relative;
@@ -423,29 +460,45 @@
   flex: 1;
 
   height: 245px;
+
+  min-width: 0;
 }
 
+
+/* ==========================================
+   GRID LINES
+========================================== */
 
 .grid-lines {
   position: absolute;
 
   left: 0;
   right: 0;
+
   top: 0;
   bottom: 30px;
 
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
 
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  pointer-events: none;
+}
 
 .grid-lines span {
   width: 100%;
 
   border-top: 1px dashed #e2e8f0;
+
+  box-sizing: border-box;
 }
 
+
+/* ==========================================
+   SVG
+========================================== */
 
 .line-chart {
   position: absolute;
@@ -454,16 +507,29 @@
   top: 0;
 
   width: 100%;
+
   height: 215px;
+
+  display: block;
 
   overflow: visible;
 }
 
 
+/* ==========================================
+   AREA
+========================================== */
+
 .chart-area-fill {
   fill: rgba(37, 99, 235, 0.08);
+
+  pointer-events: none;
 }
 
+
+/* ==========================================
+   LINE
+========================================== */
 
 .payroll-line {
   fill: none;
@@ -473,9 +539,16 @@
   stroke-width: 3;
 
   stroke-linecap: round;
+
   stroke-linejoin: round;
+
+  pointer-events: none;
 }
 
+
+/* ==========================================
+   POINT
+========================================== */
 
 .chart-point {
   fill: #ffffff;
@@ -483,23 +556,89 @@
   stroke: #2563eb;
 
   stroke-width: 3;
+
+  cursor: pointer;
+
+  transition: r 0.12s ease;
 }
 
+
+/* ==========================================
+   HTML TOOLTIP
+========================================== */
+
+.payroll-html-tooltip {
+  position: absolute;
+
+  transform: translateX(-50%);
+
+  min-width: 120px;
+
+  padding: 9px 12px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #1f2937;
+
+  color: #ffffff;
+
+  border-radius: 6px;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.15);
+
+  font-size: 12px;
+
+  line-height: 1.2;
+
+  z-index: 100;
+
+  pointer-events: none;
+
+  white-space: nowrap;
+}
+
+.payroll-html-tooltip strong {
+  font-size: 12px;
+
+  font-weight: 600;
+
+  margin-bottom: 4px;
+}
+
+.payroll-html-tooltip span {
+  font-size: 11px;
+
+  color: #e5e7eb;
+}
+
+
+/* ==========================================
+   X AXIS
+========================================== */
 
 .x-axis {
   position: absolute;
 
   left: 0;
   right: 0;
+
   bottom: 0;
 
   height: 25px;
 
   display: flex;
+
   justify-content: space-between;
+
   align-items: flex-end;
 }
-
 
 .x-axis span {
   color: #94a3b8;
@@ -507,6 +646,8 @@
   font-size: 9px;
 
   white-space: nowrap;
+
+  text-align: center;
 }
 
 
@@ -518,30 +659,33 @@
   margin-top: 0;
 }
 
-
 .actions {
   display: flex;
+
   flex-wrap: wrap;
+
   gap: 10px;
 }
-
 
 .btn {
   padding: 10px 16px;
 
   border: none;
+
   border-radius: 8px;
 
   background: #2563eb;
+
   color: #ffffff;
 
   cursor: pointer;
 
   font-size: 14px;
 
-  transition: 0.2s;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
-
 
 .btn:hover {
   background: #1d4ed8;
@@ -551,7 +695,7 @@
 
 
 /* ==========================================
-   RESPONSIVE
+   RESPONSIVE - 1200px
 ========================================== */
 
 @media (max-width: 1200px) {
@@ -567,17 +711,19 @@
 }
 
 
+/* ==========================================
+   RESPONSIVE - 768px
+========================================== */
+
 @media (max-width: 768px) {
 
   .dashboard-container {
     padding: 18px;
   }
 
-
   .stats-grid {
     grid-template-columns: 1fr;
   }
-
 
   .employee-overview {
     flex-direction: column;
@@ -585,20 +731,96 @@
     gap: 25px;
   }
 
-
   .department-list {
     width: 100%;
   }
 
-
   .card-header {
     gap: 15px;
+
     flex-direction: column;
   }
 
+  .payroll-chart {
+    height: 270px;
+  }
 
-  .chart-header select {
-    width: 100%;
+  .y-axis {
+    width: 65px;
+  }
+
+  .y-axis span {
+    font-size: 9px;
+
+    padding-right: 7px;
+  }
+
+  .x-axis span {
+    font-size: 8px;
   }
 
 }
+
+
+/* ==========================================
+   RESPONSIVE - 480px
+========================================== */
+
+@media (max-width: 480px) {
+
+  .dashboard-container {
+    padding: 12px;
+  }
+
+  .dashboard-card {
+    padding: 16px;
+  }
+
+  .stat-card {
+    padding: 18px;
+  }
+
+  .page-title {
+    font-size: 23px;
+  }
+
+  .doughnut {
+    width: 155px;
+    height: 155px;
+  }
+
+  .doughnut::after {
+    width: 95px;
+    height: 95px;
+  }
+
+  .employee-overview {
+    min-height: auto;
+  }
+
+  .payroll-chart {
+    height: 250px;
+  }
+
+  .y-axis {
+    width: 60px;
+  }
+
+  .line-chart {
+    height: 200px;
+  }
+
+  .chart-area {
+    height: 230px;
+  }
+
+  .payroll-html-tooltip {
+    min-width: 105px;
+
+    padding: 7px 9px;
+
+    font-size: 11px;
+  }
+
+}
+

@@ -1,41 +1,75 @@
 <div class="dashboard-container">
 
-  <!-- Header -->
+
+  <!-- ==========================================
+       HEADER
+  ========================================== -->
+
   <div class="dashboard-header">
+
     <div>
-      <h1 class="page-title">HRMS Dashboard</h1>
+
+      <h1 class="page-title">
+        HRMS Dashboard
+      </h1>
+
     </div>
+
   </div>
 
-  <!-- ========================= -->
-  <!-- SUMMARY CARDS -->
-  <!-- ========================= -->
+
+
+  <!-- ==========================================
+       SUMMARY CARDS
+  ========================================== -->
 
   <div class="stats-grid">
 
+
     <!-- Total Employees -->
+
     <div class="stat-card">
 
       <div class="stat-top">
+
         <div class="stat-icon employee-icon">
           👥
         </div>
 
         <div>
-          <span class="stat-label">Total Employees</span>
-          <h2>{{ totalEmployees }}</h2>
+
+          <span class="stat-label">
+            Total Employees
+          </span>
+
+          <h2>
+            {{ totalEmployees }}
+          </h2>
+
         </div>
+
       </div>
 
+
       <div class="stat-footer">
+
         <span class="positive">
           ↑ 8.7%
         </span>
-        <span>from last month</span>
+
+        <span>
+          from last month
+        </span>
+
       </div>
 
+
       <div class="mini-chart employee-mini">
-        <svg viewBox="0 0 200 45" preserveAspectRatio="none">
+
+        <svg
+          viewBox="0 0 200 45"
+          preserveAspectRatio="none">
+
           <polyline
             points="0,34 20,27 40,32 60,18 80,28 100,12 120,22 140,14 160,20 180,10 200,18"
             fill="none"
@@ -44,35 +78,59 @@
             stroke-linecap="round"
             stroke-linejoin="round">
           </polyline>
+
         </svg>
+
       </div>
 
     </div>
 
 
+
     <!-- Active Employees -->
+
     <div class="stat-card">
 
       <div class="stat-top">
+
         <div class="stat-icon active-icon">
           ✓
         </div>
 
         <div>
-          <span class="stat-label">Active Employees</span>
-          <h2>{{ activeEmployees }}</h2>
+
+          <span class="stat-label">
+            Active Employees
+          </span>
+
+          <h2>
+            {{ activeEmployees }}
+          </h2>
+
         </div>
+
       </div>
 
+
       <div class="stat-footer">
+
         <span class="positive">
           ↑ 5.3%
         </span>
-        <span>from last month</span>
+
+        <span>
+          from last month
+        </span>
+
       </div>
 
+
       <div class="mini-chart active-mini">
-        <svg viewBox="0 0 200 45" preserveAspectRatio="none">
+
+        <svg
+          viewBox="0 0 200 45"
+          preserveAspectRatio="none">
+
           <polyline
             points="0,32 20,24 40,28 60,17 80,24 100,12 120,20 140,15 160,22 180,11 200,17"
             fill="none"
@@ -81,35 +139,59 @@
             stroke-linecap="round"
             stroke-linejoin="round">
           </polyline>
+
         </svg>
+
       </div>
 
     </div>
 
 
+
     <!-- Monthly Payroll -->
+
     <div class="stat-card">
 
       <div class="stat-top">
+
         <div class="stat-icon payroll-icon">
           ৳
         </div>
 
         <div>
-          <span class="stat-label">Monthly Payroll</span>
-          <h2>৳ {{ monthlyPayroll | number }}</h2>
+
+          <span class="stat-label">
+            Monthly Payroll
+          </span>
+
+          <h2>
+            ৳ {{ monthlyPayroll | number }}
+          </h2>
+
         </div>
+
       </div>
 
+
       <div class="stat-footer">
+
         <span class="positive">
           ↑ 12.5%
         </span>
-        <span>from last month</span>
+
+        <span>
+          from last month
+        </span>
+
       </div>
 
+
       <div class="mini-chart payroll-mini">
-        <svg viewBox="0 0 200 45" preserveAspectRatio="none">
+
+        <svg
+          viewBox="0 0 200 45"
+          preserveAspectRatio="none">
+
           <polyline
             points="0,35 20,29 40,32 60,17 80,26 100,13 120,20 140,11 160,18 180,8 200,14"
             fill="none"
@@ -118,7 +200,9 @@
             stroke-linecap="round"
             stroke-linejoin="round">
           </polyline>
+
         </svg>
+
       </div>
 
     </div>
@@ -126,21 +210,32 @@
   </div>
 
 
-  <!-- ========================= -->
-  <!-- MAIN CHARTS -->
-  <!-- ========================= -->
+
+  <!-- ==========================================
+       MAIN CHARTS
+  ========================================== -->
 
   <div class="charts-grid">
 
 
-    <!-- Employee Overview -->
+    <!-- ==========================================
+         EMPLOYEE OVERVIEW
+    ========================================== -->
+
     <div class="dashboard-card">
 
       <div class="card-header">
 
         <div>
-          <h3>Employee Overview</h3>
-          <p>Employees by Department</p>
+
+          <h3>
+            Employee Overview
+          </h3>
+
+          <p>
+            Employees by Department
+          </p>
+
         </div>
 
       </div>
@@ -148,19 +243,30 @@
 
       <div class="employee-overview">
 
+
         <!-- Doughnut -->
-        <div class="doughnut"
-             [style.background]="departmentGradient">
+
+        <div
+          class="doughnut"
+          [style.background]="departmentGradient">
 
           <div class="doughnut-center">
-            <strong>{{ totalEmployees }}</strong>
-            <span>Total</span>
+
+            <strong>
+              {{ totalEmployees }}
+            </strong>
+
+            <span>
+              Total
+            </span>
+
           </div>
 
         </div>
 
 
         <!-- Department List -->
+
         <div class="department-list">
 
           <div
@@ -178,9 +284,17 @@
 
             </div>
 
+
             <div class="department-value">
-              <strong>{{ department.count }}</strong>
-              <span>({{ department.percentage }}%)</span>
+
+              <strong>
+                {{ department.count }}
+              </strong>
+
+              <span>
+                ({{ department.percentage }}%)
+              </span>
+
             </div>
 
           </div>
@@ -193,85 +307,185 @@
 
 
 
-    <!-- Payroll Overview -->
+    <!-- ==========================================
+         PAYROLL OVERVIEW
+    ========================================== -->
+
     <div class="dashboard-card">
 
       <div class="card-header">
 
         <div>
-          <h3>Payroll Overview</h3>
-          <p>Monthly Payroll Trend</p>
-        </div>
 
+          <h3>
+            Payroll Overview
+          </h3>
+
+          <p>
+            Monthly Payroll Trend
+          </p>
+
+        </div>
 
       </div>
 
 
       <div class="payroll-chart">
 
-        <!-- Y Axis -->
+
+        <!-- Y AXIS -->
+
         <div class="y-axis">
 
-          <span>৳ 4M</span>
-          <span>৳ 3M</span>
-          <span>৳ 2M</span>
-          <span>৳ 1M</span>
-          <span>৳ 0</span>
+          <span
+            *ngFor="let value of payrollYAxisLabels">
+
+            {{ formatPayrollAmount(value) }}
+
+          </span>
 
         </div>
 
 
-        <!-- Chart -->
+
+        <!-- CHART AREA -->
+
         <div class="chart-area">
 
+
+          <!-- Grid -->
+
           <div class="grid-lines">
+
             <span></span>
             <span></span>
             <span></span>
             <span></span>
             <span></span>
+
           </div>
 
+
+
+          <!-- SVG -->
 
           <svg
             class="line-chart"
             viewBox="0 0 700 250"
             preserveAspectRatio="none">
 
+
             <!-- Area -->
+
             <polygon
               [attr.points]="payrollAreaPoints"
               class="chart-area-fill">
             </polygon>
 
 
+
             <!-- Line -->
+
             <polyline
               [attr.points]="payrollLinePoints"
               class="payroll-line">
             </polyline>
 
 
+
             <!-- Points -->
+
             <circle
-              *ngFor="let point of payrollPoints"
+              *ngFor="
+                let point of payrollPoints;
+                let i = index
+              "
+
               [attr.cx]="point.x"
+
               [attr.cy]="point.y"
-              r="5"
-              class="chart-point">
+
+              [attr.r]="
+                hoveredPayrollIndex === i
+                  ? 7
+                  : 5
+              "
+
+              class="chart-point"
+
+              (mouseenter)="
+                hoveredPayrollIndex = i
+              "
+
+              (mouseleave)="
+                hoveredPayrollIndex = null
+              ">
             </circle>
+
 
           </svg>
 
 
-          <!-- X Axis -->
+
+          <!-- ==========================================
+               HTML TOOLTIP
+          ========================================== -->
+
+          <div
+            *ngIf="hoveredPayrollIndex !== null"
+
+            class="payroll-html-tooltip"
+
+            [style.left.%]="
+              getTooltipLeft()
+            "
+
+            [style.top.px]="
+              getTooltipTop()
+            ">
+
+
+            <strong>
+              {{
+                payrollPoints[
+                  hoveredPayrollIndex
+                ].month
+              }}
+            </strong>
+
+
+            <span>
+
+              ৳
+              {{
+                payrollPoints[
+                  hoveredPayrollIndex
+                ].value
+                | number:'1.0-0'
+              }}
+
+            </span>
+
+
+          </div>
+
+
+
+          <!-- X AXIS -->
+
           <div class="x-axis">
 
-            <span *ngFor="let month of payrollMonths">
+            <span
+              *ngFor="
+                let month of payrollMonths
+              ">
+
               {{ month }}
+
             </span>
 
           </div>
+
 
         </div>
 
@@ -280,16 +494,23 @@
     </div>
 
   </div>
-  <!-- ========================= -->
-  <!-- QUICK ACTIONS -->
-  <!-- ========================= -->
+
+
+
+  <!-- ==========================================
+       QUICK ACTIONS
+  ========================================== -->
 
   <div class="dashboard-card actions-card">
 
     <div class="card-header">
 
       <div>
-        <h3>Quick Actions</h3>
+
+        <h3>
+          Quick Actions
+        </h3>
+
       </div>
 
     </div>
@@ -299,6 +520,7 @@
 
 
       <!-- Admin -->
+
       <button
         *ngIf="isAdmin()"
         routerLink="/register"
@@ -319,7 +541,9 @@
       </button>
 
 
+
       <!-- HR -->
+
       <button
         *ngIf="isHR()"
         routerLink="/payroll/create"
@@ -340,7 +564,9 @@
       </button>
 
 
+
       <!-- HR + Finance -->
+
       <button
         *ngIf="isHR() || isFinance()"
         routerLink="/salary/create"
@@ -351,7 +577,9 @@
       </button>
 
 
+
       <!-- HR -->
+
       <button
         *ngIf="isHR()"
         routerLink="/payrolllist"
@@ -362,7 +590,9 @@
       </button>
 
 
+
       <!-- HR + Admin -->
+
       <button
         *ngIf="isAdmin() || isHR()"
         routerLink="/employeelist"
@@ -373,7 +603,9 @@
       </button>
 
 
+
       <!-- HR + Finance -->
+
       <button
         *ngIf="isHR() || isFinance()"
         routerLink="/salarylist"
@@ -387,4 +619,5 @@
     </div>
 
   </div>
+
 </div>
