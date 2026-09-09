@@ -371,7 +371,7 @@
 
           <svg
             class="line-chart"
-            viewBox="0 0 700 250"
+            viewBox="0 0 700 215"
             preserveAspectRatio="none">
 
 
@@ -394,33 +394,15 @@
 
 
             <!-- Points -->
-
-            <circle
-              *ngFor="
-                let point of payrollPoints;
-                let i = index
-              "
-
-              [attr.cx]="point.x"
-
-              [attr.cy]="point.y"
-
-              [attr.r]="
-                hoveredPayrollIndex === i
-                  ? 7
-                  : 5
-              "
-
-              class="chart-point"
-
-              (mouseenter)="
-                hoveredPayrollIndex = i
-              "
-
-              (mouseleave)="
-                hoveredPayrollIndex = null
-              ">
-            </circle>
+<circle
+  *ngFor="let point of payrollPoints; let i = index"
+  [attr.cx]="point.x"
+  [attr.cy]="point.y"
+  r="7"
+  class="chart-point"
+  (mouseenter)="showPayrollTooltip(i)"
+  (mouseleave)="hidePayrollTooltip()">
+</circle>
 
 
           </svg>

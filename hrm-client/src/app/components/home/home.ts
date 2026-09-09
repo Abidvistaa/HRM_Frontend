@@ -43,16 +43,17 @@ export class HomeComponent {
   // ==========================================
   // HOVER
   // ==========================================
+hoveredPayrollIndex: number | null = null;
 
-  hoveredPayrollIndex: number | null = null;
+showPayrollTooltip(index: number): void {
+  console.log('ENTER', index);
+  this.hoveredPayrollIndex = index;
+}
 
-  showPayrollTooltip(index: number): void {
-    this.hoveredPayrollIndex = index;
-  }
-
-  hidePayrollTooltip(): void {
-    this.hoveredPayrollIndex = null;
-  }
+hidePayrollTooltip(): void {
+  console.log('LEAVE');
+  this.hoveredPayrollIndex = null;
+}
 
   // ==========================================
   // CONSTRUCTOR

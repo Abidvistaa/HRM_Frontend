@@ -64,7 +64,6 @@ export class AuthService {
 
       // Token expired
       if (expiration <= currentTime) {
-        this.clearSession();
         this.logout();
         this.tokenExpMessage = 'Your session has expired. Please login again.';
         return false;
